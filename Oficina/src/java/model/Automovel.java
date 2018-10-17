@@ -156,4 +156,32 @@ public class Automovel implements Serializable, BaseEntity {
     public Long pegarId() {
         return new Long(idAutomovel);
     }
+    public String getCategoria() {
+        if (this.pesoCarro <= 100) {
+            if (this.custoTotal <= 50) {
+                return "Carroça - Amador";
+            } else if (this.custoTotal < 100) {
+                return "Carroça - Intermediário";
+            } else if (this.custoTotal <= 150) {
+                return "Carroça - Profissional";
+            }
+        } else if (this.pesoCarro < 300) {
+            if (this.custoTotal <= 50) {
+                return "Baja - Amador";
+            } else if (this.custoTotal < 100) {
+                return "Baja - Intermediário";
+            } else if (this.custoTotal <= 150) {
+                return "Baja - Profissional";
+            }
+        } else if (this.pesoCarro <= 500) {
+            if (this.custoTotal <= 50) {
+                return "Bugre - Amador";
+            } else if (this.custoTotal < 100) {
+                return "Bugre - Intermediário";
+            } else if (this.custoTotal <= 150) {
+                return "Bugre - Profissional";
+            }
+        }
+        return "Sem Categoria";
+    }
 }
