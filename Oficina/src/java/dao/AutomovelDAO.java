@@ -5,14 +5,13 @@
 package dao;
 
 import java.util.List;
-import javax.faces.el.EvaluationException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import model.Automovel;
 
-public class AutomovelDAO implements CrudDAO<Automovel> {
+public class AutomovelDAO implements DAO {
 
     private static AutomovelDAO instance = new AutomovelDAO();
 
@@ -20,32 +19,34 @@ public class AutomovelDAO implements CrudDAO<Automovel> {
         return instance;
     }
 
-    public AutomovelDAO() {
+    private AutomovelDAO() {
     }
 
+    //CLASSES PADRÃO
     @Override
-    public void salvar(Automovel automovel) {
-        EntityManager em = PersistenceUtil.getEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.persist(automovel);
-            tx.commit();
-        } catch (RollbackException e) {
-            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel executar a ação tomada!!", e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Reinicie seu servidor!", e);
-        } catch (Exception e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
-            }
-            throw new RuntimeException(e);
-        } finally {
-            PersistenceUtil.close(em);
-        }
+    public boolean salvar(Automovel automovel) {
+//        EntityManager em = PersistenceUtil.getEntityManager();
+//        EntityTransaction tx = em.getTransaction();
+//        try {
+//            tx.begin();
+//            em.persist(automovel);
+//            tx.commit();
+        return true;
+//        } catch (RollbackException e) {
+//            return false;
+//            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel excluir o registro!", e);
+//        } catch (Exception e) {
+//            return false;
+//            if (tx != null && tx.isActive()) {
+//                tx.rollback();
+//            }
+//            throw new RuntimeException(e);
+//    }
+//        finally {
+//            PersistenceUtil.close(em);
+//        }
     }
 
-    @Override
     public void alterar(Automovel automovel) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -69,7 +70,9 @@ public class AutomovelDAO implements CrudDAO<Automovel> {
         Automovel automovel = null;
         try {
             tx.begin();
-            automovel = em.find(Automovel.class, id);
+            automovel
+                    = em.find(Automovel.class,
+                            id);
             tx.commit();
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
@@ -82,13 +85,14 @@ public class AutomovelDAO implements CrudDAO<Automovel> {
         return automovel;
     }
 
-    @Override
     public void excluir(Automovel automovel) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-            em.remove(em.getReference(Automovel.class, automovel.getIdAutomovel()));
+            em
+                    .remove(em.getReference(Automovel.class,
+                            automovel.getIdAutomovel()));
             tx.commit();
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
@@ -100,14 +104,15 @@ public class AutomovelDAO implements CrudDAO<Automovel> {
         }
     }
 
-    @Override
-    public List<Automovel> buscar() {
+    // OBTER PARA OS SELECTS
+    public List<Automovel> obterAutomoveis() {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Automovel> automoveis = null;
         try {
             tx.begin();
-            TypedQuery<Automovel> query = em.createQuery("select a from Automovel a", Automovel.class);
+            TypedQuery<Automovel> query = em.createQuery("select a from Automovel a", Automovel.class
+            );
             automoveis = query.getResultList();
             tx.commit();
         } catch (Exception e) {

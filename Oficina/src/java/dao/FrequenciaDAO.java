@@ -11,7 +11,7 @@ import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import model.Frequencia;
 
-public class FrequenciaDAO implements CrudDAO<Frequencia> {
+public class FrequenciaDAO {
 
     private static FrequenciaDAO instance = new FrequenciaDAO();
 
@@ -19,10 +19,10 @@ public class FrequenciaDAO implements CrudDAO<Frequencia> {
         return instance;
     }
 
-    public FrequenciaDAO() {
+    private FrequenciaDAO() {
     }
 
-    @Override
+    //CLASSES PADRÃO
     public void salvar(Frequencia frequencia) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -30,10 +30,6 @@ public class FrequenciaDAO implements CrudDAO<Frequencia> {
             tx.begin();
             em.persist(frequencia);
             tx.commit();
-        } catch (RollbackException e) {
-            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel executar a ação tomada!!", e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Reinicie seu servidor!", e);
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
@@ -44,7 +40,6 @@ public class FrequenciaDAO implements CrudDAO<Frequencia> {
         }
     }
 
-    @Override
     public void alterar(Frequencia frequencia) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -81,7 +76,6 @@ public class FrequenciaDAO implements CrudDAO<Frequencia> {
         return frequencia;
     }
 
-    @Override
     public void excluir(Frequencia frequencia) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -99,8 +93,8 @@ public class FrequenciaDAO implements CrudDAO<Frequencia> {
         }
     }
 
-    @Override
-    public List<Frequencia> buscar() {
+    // OBTER PARA OS SELECTS
+    public List<Frequencia> obterFrequencias() {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Frequencia> frequencias = null;

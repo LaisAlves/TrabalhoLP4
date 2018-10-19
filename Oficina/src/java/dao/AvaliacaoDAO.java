@@ -11,7 +11,7 @@ import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import model.Avaliacao;
 
-public class AvaliacaoDAO implements CrudDAO<Avaliacao> {
+public class AvaliacaoDAO {
 
     private static AvaliacaoDAO instance = new AvaliacaoDAO();
 
@@ -19,10 +19,10 @@ public class AvaliacaoDAO implements CrudDAO<Avaliacao> {
         return instance;
     }
 
-    public AvaliacaoDAO() {
+    private AvaliacaoDAO() {
     }
 
-    @Override
+    //CLASSES PADRÃO
     public void salvar(Avaliacao avaliacao) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -30,10 +30,6 @@ public class AvaliacaoDAO implements CrudDAO<Avaliacao> {
             tx.begin();
             em.persist(avaliacao);
             tx.commit();
-        } catch (RollbackException e) {
-            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel executar a ação tomada!!", e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Reinicie seu servidor!", e);
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
@@ -44,7 +40,6 @@ public class AvaliacaoDAO implements CrudDAO<Avaliacao> {
         }
     }
 
-    @Override
     public void alterar(Avaliacao avaliacao) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -81,7 +76,6 @@ public class AvaliacaoDAO implements CrudDAO<Avaliacao> {
         return avaliacao;
     }
 
-    @Override
     public void excluir(Avaliacao avaliacao) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -99,8 +93,8 @@ public class AvaliacaoDAO implements CrudDAO<Avaliacao> {
         }
     }
 
-    @Override
-    public List<Avaliacao> buscar() {
+    // OBTER PARA OS SELECTS
+    public List<Avaliacao> obterAvaliacoes() {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Avaliacao> avaliacoes = null;

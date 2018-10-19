@@ -11,7 +11,7 @@ import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import model.Tipopeca;
 
-public class TipopecaDAO implements CrudDAO<Tipopeca> {
+public class TipopecaDAO {
 
     private static TipopecaDAO instance = new TipopecaDAO();
 
@@ -19,10 +19,10 @@ public class TipopecaDAO implements CrudDAO<Tipopeca> {
         return instance;
     }
 
-    public TipopecaDAO() {
+    private TipopecaDAO() {
     }
 
-    @Override
+    //CLASSES PADRÃO
     public void salvar(Tipopeca tipopeca) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -30,10 +30,6 @@ public class TipopecaDAO implements CrudDAO<Tipopeca> {
             tx.begin();
             em.persist(tipopeca);
             tx.commit();
-        } catch (RollbackException e) {
-            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel executar a ação tomada!!", e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Reinicie seu servidor!", e);
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
@@ -44,7 +40,6 @@ public class TipopecaDAO implements CrudDAO<Tipopeca> {
         }
     }
 
-    @Override
     public void alterar(Tipopeca tipopeca) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -81,7 +76,6 @@ public class TipopecaDAO implements CrudDAO<Tipopeca> {
         return tipopeca;
     }
 
-    @Override
     public void excluir(Tipopeca tipopeca) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -99,8 +93,8 @@ public class TipopecaDAO implements CrudDAO<Tipopeca> {
         }
     }
 
-    @Override
-    public List<Tipopeca> buscar() {
+    // OBTER PARA OS SELECTS
+    public List<Tipopeca> obterTipospeca() {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Tipopeca> tipospeca = null;
