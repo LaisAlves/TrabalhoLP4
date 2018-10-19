@@ -11,7 +11,7 @@ import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import model.Pessoa;
 
-public class PessoaDAO implements CrudDAO<Pessoa> {
+public class PessoaDAO {
 
     private static PessoaDAO instance = new PessoaDAO();
 
@@ -19,10 +19,10 @@ public class PessoaDAO implements CrudDAO<Pessoa> {
         return instance;
     }
 
-    public PessoaDAO() {
+    private PessoaDAO() {
     }
 
-    @Override
+    //CLASSES PADRÃO
     public void salvar(Pessoa pessoa) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -30,10 +30,6 @@ public class PessoaDAO implements CrudDAO<Pessoa> {
             tx.begin();
             em.persist(pessoa);
             tx.commit();
-        } catch (RollbackException e) {
-            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel executar a ação tomada!!", e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Reinicie seu servidor!", e);
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
@@ -44,7 +40,6 @@ public class PessoaDAO implements CrudDAO<Pessoa> {
         }
     }
 
-    @Override
     public void alterar(Pessoa pessoa) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -81,7 +76,6 @@ public class PessoaDAO implements CrudDAO<Pessoa> {
         return pessoa;
     }
 
-    @Override
     public void excluir(Pessoa pessoa) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -99,8 +93,8 @@ public class PessoaDAO implements CrudDAO<Pessoa> {
         }
     }
 
-    @Override
-    public List<Pessoa> buscar() {
+    // OBTER PARA OS SELECTS
+    public List<Pessoa> obterPessoas() {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Pessoa> pessoas = null;

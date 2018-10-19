@@ -11,7 +11,7 @@ import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import model.Integrante;
 
-public class IntegranteDAO implements CrudDAO<Integrante> {
+public class IntegranteDAO {
 
     private static IntegranteDAO instance = new IntegranteDAO();
 
@@ -19,10 +19,10 @@ public class IntegranteDAO implements CrudDAO<Integrante> {
         return instance;
     }
 
-    public IntegranteDAO() {
+    private IntegranteDAO() {
     }
 
-    @Override
+    //CLASSES PADRÃO
     public void salvar(Integrante integrante) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -30,10 +30,6 @@ public class IntegranteDAO implements CrudDAO<Integrante> {
             tx.begin();
             em.persist(integrante);
             tx.commit();
-        } catch (RollbackException e) {
-            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel executar a ação tomada!!", e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Reinicie seu servidor!", e);
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
@@ -44,7 +40,6 @@ public class IntegranteDAO implements CrudDAO<Integrante> {
         }
     }
 
-    @Override
     public void alterar(Integrante integrante) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -80,7 +75,6 @@ public class IntegranteDAO implements CrudDAO<Integrante> {
         return integrante;
     }
 
-    @Override
     public void excluir(Integrante integrante) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -98,8 +92,8 @@ public class IntegranteDAO implements CrudDAO<Integrante> {
         }
     }
 
-    @Override
-    public List<Integrante> buscar() {
+    // OBTER PARA OS SELECTS
+    public List<Integrante> obterIntegrantes() {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Integrante> integrantes = null;

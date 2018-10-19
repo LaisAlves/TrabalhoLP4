@@ -11,7 +11,7 @@ import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import model.Competicao;
 
-public class CompeticaoDAO implements CrudDAO<Competicao> {
+public class CompeticaoDAO {
 
     private static CompeticaoDAO instance = new CompeticaoDAO();
 
@@ -19,10 +19,10 @@ public class CompeticaoDAO implements CrudDAO<Competicao> {
         return instance;
     }
 
-    public CompeticaoDAO() {
+    private CompeticaoDAO() {
     }
 
-    @Override
+    //CLASSES PADRÃO
     public void salvar(Competicao competicao) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -30,10 +30,6 @@ public class CompeticaoDAO implements CrudDAO<Competicao> {
             tx.begin();
             em.persist(competicao);
             tx.commit();
-        } catch (RollbackException e) {
-            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel executar a ação tomada!!", e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Reinicie seu servidor!", e);
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
@@ -44,7 +40,6 @@ public class CompeticaoDAO implements CrudDAO<Competicao> {
         }
     }
 
-    @Override
     public void alterar(Competicao competicao) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -81,7 +76,6 @@ public class CompeticaoDAO implements CrudDAO<Competicao> {
         return competicao;
     }
 
-    @Override
     public void excluir(Competicao competicao) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -100,8 +94,7 @@ public class CompeticaoDAO implements CrudDAO<Competicao> {
     }
 
     // OBTER PARA OS SELECTS
-    @Override
-    public List<Competicao> buscar() {
+    public List<Competicao> obterCompeticoes() {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Competicao> competicoes = null;

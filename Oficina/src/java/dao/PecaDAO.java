@@ -11,7 +11,7 @@ import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import model.Peca;
 
-public class PecaDAO implements CrudDAO<Peca> {
+public class PecaDAO {
 
     private static PecaDAO instance = new PecaDAO();
 
@@ -19,10 +19,10 @@ public class PecaDAO implements CrudDAO<Peca> {
         return instance;
     }
 
-    public PecaDAO() {
+    private PecaDAO() {
     }
 
-    @Override
+    //CLASSES PADRÃO
     public void salvar(Peca peca) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -30,10 +30,6 @@ public class PecaDAO implements CrudDAO<Peca> {
             tx.begin();
             em.persist(peca);
             tx.commit();
-        } catch (RollbackException e) {
-            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel executar a ação tomada!!", e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Reinicie seu servidor!", e);
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
@@ -44,7 +40,6 @@ public class PecaDAO implements CrudDAO<Peca> {
         }
     }
 
-    @Override
     public void alterar(Peca peca) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -81,7 +76,6 @@ public class PecaDAO implements CrudDAO<Peca> {
         return peca;
     }
 
-    @Override
     public void excluir(Peca peca) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -99,8 +93,8 @@ public class PecaDAO implements CrudDAO<Peca> {
         }
     }
 
-    @Override
-    public List<Peca> buscar() {
+    // OBTER PARA OS SELECTS
+    public List<Peca> obterPecas() {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Peca> pecas = null;

@@ -11,7 +11,7 @@ import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import model.Desempenho;
 
-public class DesempenhoDAO implements CrudDAO<Desempenho> {
+public class DesempenhoDAO {
 
     private static DesempenhoDAO instance = new DesempenhoDAO();
 
@@ -19,10 +19,10 @@ public class DesempenhoDAO implements CrudDAO<Desempenho> {
         return instance;
     }
 
-    public DesempenhoDAO() {
+    private DesempenhoDAO() {
     }
 
-    @Override
+    //CLASSES PADRÃO
     public void salvar(Desempenho desempenho) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -30,10 +30,6 @@ public class DesempenhoDAO implements CrudDAO<Desempenho> {
             tx.begin();
             em.persist(desempenho);
             tx.commit();
-        } catch (RollbackException e) {
-            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel executar a ação tomada!!", e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Reinicie seu servidor!", e);
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
@@ -44,7 +40,6 @@ public class DesempenhoDAO implements CrudDAO<Desempenho> {
         }
     }
 
-    @Override
     public void alterar(Desempenho desempenho) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -81,7 +76,6 @@ public class DesempenhoDAO implements CrudDAO<Desempenho> {
         return desempenho;
     }
 
-    @Override
     public void excluir(Desempenho desempenho) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -99,8 +93,8 @@ public class DesempenhoDAO implements CrudDAO<Desempenho> {
         }
     }
 
-    @Override
-    public List<Desempenho> buscar() {
+    // OBTER PARA OS SELECTS
+    public List<Desempenho> obterDesempenhos() {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Desempenho> desempenhos = null;

@@ -4,29 +4,14 @@
  */
 package dao;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import javax.swing.JOptionPane;
 import model.Arquitetura;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
 
-public class ArquiteturaDAO implements CrudDAO<Arquitetura> {
+public class ArquiteturaDAO {
 
     private static ArquiteturaDAO instance = new ArquiteturaDAO();
 
@@ -34,10 +19,10 @@ public class ArquiteturaDAO implements CrudDAO<Arquitetura> {
         return instance;
     }
 
-    public ArquiteturaDAO() {
+    private ArquiteturaDAO() {
     }
 
-    @Override
+    //CLASSES PADRÃO
     public void salvar(Arquitetura arquitetura) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -45,10 +30,6 @@ public class ArquiteturaDAO implements CrudDAO<Arquitetura> {
             tx.begin();
             em.persist(arquitetura);
             tx.commit();
-        } catch (RollbackException e) {
-            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel executar a ação tomada!!", e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Reinicie seu servidor!", e);
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
@@ -59,7 +40,6 @@ public class ArquiteturaDAO implements CrudDAO<Arquitetura> {
         }
     }
 
-    @Override
     public void alterar(Arquitetura arquitetura) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -96,7 +76,6 @@ public class ArquiteturaDAO implements CrudDAO<Arquitetura> {
         return arquitetura;
     }
 
-    @Override
     public void excluir(Arquitetura arquitetura) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -114,8 +93,8 @@ public class ArquiteturaDAO implements CrudDAO<Arquitetura> {
         }
     }
 
-    @Override
-    public List<Arquitetura> buscar() {
+    // OBTER PARA OS SELECTS
+    public List<Arquitetura> obterArquiteturas() {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Arquitetura> arquiteturas = null;
@@ -134,4 +113,5 @@ public class ArquiteturaDAO implements CrudDAO<Arquitetura> {
         }
         return arquiteturas;
     }
+
 }

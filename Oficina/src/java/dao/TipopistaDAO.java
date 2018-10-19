@@ -11,7 +11,7 @@ import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import model.Tipopista;
 
-public class TipopistaDAO implements CrudDAO<Tipopista> {
+public class TipopistaDAO {
 
     private static TipopistaDAO instance = new TipopistaDAO();
 
@@ -19,10 +19,10 @@ public class TipopistaDAO implements CrudDAO<Tipopista> {
         return instance;
     }
 
-    public TipopistaDAO() {
+    private TipopistaDAO() {
     }
 
-    @Override
+    //CLASSES PADRÃO
     public void salvar(Tipopista tipopista) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -30,10 +30,6 @@ public class TipopistaDAO implements CrudDAO<Tipopista> {
             tx.begin();
             em.persist(tipopista);
             tx.commit();
-        } catch (RollbackException e) {
-            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel executar a ação tomada!!", e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Reinicie seu servidor!", e);
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
@@ -44,7 +40,6 @@ public class TipopistaDAO implements CrudDAO<Tipopista> {
         }
     }
 
-    @Override
     public void alterar(Tipopista tipopista) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -81,7 +76,6 @@ public class TipopistaDAO implements CrudDAO<Tipopista> {
         return tipopista;
     }
 
-    @Override
     public void excluir(Tipopista tipopista) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -99,8 +93,8 @@ public class TipopistaDAO implements CrudDAO<Tipopista> {
         }
     }
 
-    @Override
-    public List<Tipopista> buscar() {
+    // OBTER PARA OS SELECTS
+    public List<Tipopista> obterTipospista() {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Tipopista> tiposPista = null;

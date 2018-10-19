@@ -11,7 +11,7 @@ import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import model.Desempenhoteste;
 
-public class DesempenhotesteDAO implements CrudDAO<Desempenhoteste> {
+public class DesempenhotesteDAO {
 
     private static DesempenhotesteDAO instance = new DesempenhotesteDAO();
 
@@ -19,10 +19,10 @@ public class DesempenhotesteDAO implements CrudDAO<Desempenhoteste> {
         return instance;
     }
 
-    public DesempenhotesteDAO() {
+    private DesempenhotesteDAO() {
     }
 
-    @Override
+    //CLASSES PADRÃO
     public void salvar(Desempenhoteste desempenhoTeste) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -30,10 +30,6 @@ public class DesempenhotesteDAO implements CrudDAO<Desempenhoteste> {
             tx.begin();
             em.persist(desempenhoTeste);
             tx.commit();
-        } catch (RollbackException e) {
-            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel executar a ação tomada!!", e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Reinicie seu servidor!", e);
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
@@ -44,7 +40,6 @@ public class DesempenhotesteDAO implements CrudDAO<Desempenhoteste> {
         }
     }
 
-    @Override
     public void alterar(Desempenhoteste desempenhoTeste) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -81,7 +76,6 @@ public class DesempenhotesteDAO implements CrudDAO<Desempenhoteste> {
         return desempenhoTeste;
     }
 
-    @Override
     public void excluir(Desempenhoteste desempenhoTeste) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -99,8 +93,8 @@ public class DesempenhotesteDAO implements CrudDAO<Desempenhoteste> {
         }
     }
 
-    @Override
-    public List<Desempenhoteste> buscar() {
+    // OBTER PARA OS SELECTS
+    public List<Desempenhoteste> obterDesempenhosteste() {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Desempenhoteste> desempenhosTeste = null;

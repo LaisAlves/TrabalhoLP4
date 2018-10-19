@@ -11,7 +11,7 @@ import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import model.Design;
 
-public class DesignDAO implements CrudDAO<Design> {
+public class DesignDAO {
 
     private static DesignDAO instance = new DesignDAO();
 
@@ -19,10 +19,10 @@ public class DesignDAO implements CrudDAO<Design> {
         return instance;
     }
 
-    public DesignDAO() {
+    private DesignDAO() {
     }
 
-    @Override
+    //CLASSES PADRÃO
     public void salvar(Design design) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -30,10 +30,6 @@ public class DesignDAO implements CrudDAO<Design> {
             tx.begin();
             em.persist(design);
             tx.commit();
-        } catch (RollbackException e) {
-            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel executar a ação tomada!!", e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Reinicie seu servidor!", e);
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
@@ -44,7 +40,6 @@ public class DesignDAO implements CrudDAO<Design> {
         }
     }
 
-    @Override
     public void alterar(Design design) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -81,7 +76,6 @@ public class DesignDAO implements CrudDAO<Design> {
         return design;
     }
 
-    @Override
     public void excluir(Design design) {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -99,8 +93,8 @@ public class DesignDAO implements CrudDAO<Design> {
         }
     }
 
-    @Override
-    public List<Design> buscar() {
+    // OBTER PARA OS SELECTS
+    public List<Design> obterDesigns() {
         EntityManager em = PersistenceUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Design> designs = null;
