@@ -70,8 +70,8 @@ public class Tipopista implements Serializable, BaseEntity {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idTipopista != null ? idTipopista.hashCode() : 0);
-        return hash;
+        hash += (idTipopista != null ? idTipopista.hashCode() : 0);//1 //2
+        return hash;//3
     }
 
     @Override
