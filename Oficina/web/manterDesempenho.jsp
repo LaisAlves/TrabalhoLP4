@@ -173,7 +173,6 @@
     $(document).ready(function () {
         $('select').material_select();
 
-        $('body').css('background-image', "url('images/fundo.png')");
 
         $('.datepicker').pickadate({
             closeOnClear: true,

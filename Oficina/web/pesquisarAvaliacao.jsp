@@ -120,7 +120,6 @@
         $("[name='selectTipoRelatorio']").material_select();
         $("[name='selectComparecimento']").material_select('destroy');
 
-        $('body').css('background-image', "url('images/fundo.png')");
 
         $('.dropdown-button').dropdown({
             constrainWidth: false, // Does not change width of dropdown to that of the activator
