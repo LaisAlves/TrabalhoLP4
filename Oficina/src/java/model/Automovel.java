@@ -5,7 +5,7 @@
  */
 package model;
 
-import converter.BaseEntity;
+import dao.DAO;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -15,10 +15,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 @Entity(name = "Automovel")
 @Table(name = "automovel")
-public class Automovel implements Serializable, BaseEntity {
+public class Automovel implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -127,6 +126,39 @@ public class Automovel implements Serializable, BaseEntity {
         this.custoTotal = custoTotal;
     }
 
+    public String getCategoria() {
+        if (this.pesoCarro <= 100) {
+            if (this.custoTotal <= 50) {
+                return "Carroça - Amador";
+            } else if (this.custoTotal < 100) {
+                return "Carroça - Intermediário";
+            } else if (this.custoTotal <= 150) {
+                return "Carroça - Profissional";
+            }
+        } else if (this.pesoCarro < 300) {
+            if (this.custoTotal <= 50) {
+                return "Baja - Amador";
+            } else if (this.custoTotal < 100) {
+                return "Baja - Intermediário";
+            } else if (this.custoTotal <= 150) {
+                return "Baja - Profissional";
+            }
+        } else if (this.pesoCarro <= 500) {
+            if (this.custoTotal <= 50) {
+                return "Bugre - Amador";
+            } else if (this.custoTotal < 100) {
+                return "Bugre - Intermediário";
+            } else if (this.custoTotal <= 150) {
+                return "Bugre - Profissional";
+            }
+        }
+        return "Sem Categoria";
+    }
+
+    public boolean salvar(DAO automovelDAO) {
+        return automovelDAO.salvar(this);
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -150,38 +182,5 @@ public class Automovel implements Serializable, BaseEntity {
     @Override
     public String toString() {
         return "model.Automovel[ idAutomovel=" + idAutomovel + " ]";
-    }
-
-    @Override
-    public Long pegarId() {
-        return new Long(idAutomovel);
-    }
-    public String getCategoria() {
-        if (this.pesoCarro <= 100) {//1
-            if (this.custoTotal <= 50) { //2
-                return "Carro - Amador"; //3
-            } else if (this.custoTotal < 100) { //4
-                return "Carro - Intermediário";//5
-            } else if (this.custoTotal <= 150) {//6
-                return "Carro - Profissional"; //7
-            }
-        } else if (this.pesoCarro < 300) { //8
-            if (this.custoTotal <= 50) {//9
-                return " Amador";//10
-            } else if (this.custoTotal < 100) {//11
-                return "  Intermediário";//12
-            } else if (this.custoTotal <= 150) {//13
-                return " Profissional";//14
-            }
-        } else if (this.pesoCarro <= 500) {//15
-            if (this.custoTotal <= 50) {//16
-                return "Bugre - Amador";//17
-            } else if (this.custoTotal < 100) {//18
-                return "Bugre - Intermediário";//19
-            } else if (this.custoTotal <= 150) {//20
-                return "Bugre - Profissional";//21
-            }
-        }
-        return "Sem Categoria"; //22
     }
 }

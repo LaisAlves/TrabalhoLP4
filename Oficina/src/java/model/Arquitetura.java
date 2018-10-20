@@ -5,7 +5,6 @@
  */
 package model;
 
-import converter.BaseEntity;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,10 +16,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+/**
+ *
+ * @author lucas
+ */
 @Entity(name = "Arquitetura")
 @Table(name = "arquitetura")
-public class Arquitetura implements Serializable, BaseEntity {
+public class Arquitetura implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -99,8 +101,4 @@ public class Arquitetura implements Serializable, BaseEntity {
         return "model.Arquitetura[ idArquitetura=" + idArquitetura + " ]";
     }
 
-    @Override
-    public Long pegarId() {
-        return new Long(idArquitetura);
-    }
 }
