@@ -71,7 +71,7 @@ public class TesteDesempenho {
    }
     @Test
     public void testEquals2(){
-        //automovel.setIdAutomovel(null);
+        desempenho.setIdDesempenho(null);
         Desempenho other = new Desempenho();
         other.setIdDesempenho(1);
        boolean resultadoEsperado = false;
@@ -82,12 +82,24 @@ public class TesteDesempenho {
    }
     @Test
     public void testEquals3(){
-        //automovel.setIdAutomovel(null);
+        desempenho.setIdDesempenho(1);
         Desempenho other = new Desempenho();
-        other.setIdDesempenho(1);
+        other.setIdDesempenho(2);
        boolean resultadoEsperado = false;
        boolean resultado =desempenho.equals(other);
        assertEquals(resultadoEsperado,resultado);
+        
+       
+   }
+    @Test
+    public void testEquals4(){
+        desempenho.setIdDesempenho(null);
+        Desempenho other = new Desempenho();
+        other.setIdDesempenho(null);
+       boolean resultadoEsperado = true;
+       boolean resultado =desempenho.equals(desempenho);
+       assertEquals(resultadoEsperado,resultado);
+        
         
        
    }

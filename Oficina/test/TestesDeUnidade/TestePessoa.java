@@ -81,13 +81,27 @@ public class TestePessoa {
    }
     @Test
     public void testEquals3(){
-        //automovel.setIdAutomovel(null);
+       pessoa.setIdPessoa(1);
         Pessoa other = new Pessoa();
-        other.setIdPessoa(1);
+        other.setIdPessoa(2);
        boolean resultadoEsperado = false;
        boolean resultado =pessoa.equals(other);
        assertEquals(resultadoEsperado,resultado);
         
        
    }
+    @Test
+    public void testEquals4(){
+        pessoa.setIdPessoa(null);
+        Pessoa other = new Pessoa();
+        other.setIdPessoa(null);
+       boolean resultadoEsperado = true;
+       boolean resultado =pessoa.equals(pessoa);
+       assertEquals(resultadoEsperado,resultado);
+        
+        
+       
+   }
 }
+ //automovel.setIdAutomovel(null);
+        

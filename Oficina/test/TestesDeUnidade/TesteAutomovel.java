@@ -70,7 +70,7 @@ public class TesteAutomovel {
    }
     @Test
     public void testEquals2(){
-        //automovel.setIdAutomovel(null);
+        automovel.setIdAutomovel(null);
         Automovel other = new Automovel();
         other.setIdAutomovel(1);
        boolean resultadoEsperado = false;
@@ -81,12 +81,24 @@ public class TesteAutomovel {
    }
     @Test
     public void testEquals3(){
-        //automovel.setIdAutomovel(null);
+        automovel.setIdAutomovel(1);
         Automovel other = new Automovel();
-        other.setIdAutomovel(1);
+        other.setIdAutomovel(2);
        boolean resultadoEsperado = false;
        boolean resultado =automovel.equals(other);
        assertEquals(resultadoEsperado,resultado);
+        
+       
+   }
+    @Test
+    public void testEquals4(){
+        automovel.setIdAutomovel(null);
+        Automovel other = new Automovel();
+        other.setIdAutomovel(null);
+       boolean resultadoEsperado = true;
+       boolean resultado =automovel.equals(automovel);
+       assertEquals(resultadoEsperado,resultado);
+        
         
        
    }

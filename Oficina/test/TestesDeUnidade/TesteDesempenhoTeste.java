@@ -70,7 +70,7 @@ public class TesteDesempenhoTeste {
    }
     @Test
     public void testEquals2(){
-        //automovel.setIdAutomovel(null);
+        desempenhoTeste.setIdDesempenhoteste(null);
         Desempenhoteste other = new Desempenhoteste();
         other.setIdDesempenhoteste(1);
        boolean resultadoEsperado = false;
@@ -81,13 +81,25 @@ public class TesteDesempenhoTeste {
    }
     @Test
     public void testEquals3(){
-        //automovel.setIdAutomovel(null);
+        desempenhoTeste.setIdDesempenhoteste(1);
         Desempenhoteste other = new Desempenhoteste();
-        other.setIdDesempenhoteste(1);
+        other.setIdDesempenhoteste(2);
        boolean resultadoEsperado = false;
        boolean resultado =desempenhoTeste.equals(other);
        assertEquals(resultadoEsperado,resultado);
         
+       
+   }
+    @Test
+    public void testEquals4(){
+        desempenhoTeste.setIdDesempenhoteste(null);
+        Desempenhoteste other = new Desempenhoteste();
+        other.setIdDesempenhoteste(null);
+       boolean resultadoEsperado = true;
+       boolean resultado =desempenhoTeste.equals(desempenhoTeste);
+       assertEquals(resultadoEsperado,resultado);
+        
+       
        
    }
 }
