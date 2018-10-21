@@ -6,7 +6,7 @@
 package model;
 
 
-import converter.BaseEntity;
+
 
 import dao.DAO;
 import java.io.Serializable;
@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
 @Entity(name = "Automovel")
 @Table(name = "automovel")
 
-public class Automovel implements Serializable, BaseEntity,IAutomovel{
+public class Automovel implements Serializable, IAutomovel{
 
 
 
@@ -133,11 +133,8 @@ public class Automovel implements Serializable, BaseEntity,IAutomovel{
         this.custoTotal = custoTotal;
     }
 
-
     
-    
-  
-
+  @Override
     public int hashCode(IAutomovel automovel) {
 
         int hash = 0;
@@ -165,10 +162,7 @@ public class Automovel implements Serializable, BaseEntity,IAutomovel{
     }
 
 
-    @Override
-    public Long pegarId() {
-        return new Long(idAutomovel);
-    }
+   
     public String getCategoria() {
         if (this.pesoCarro <= 100) {//1
             if (this.custoTotal <= 50) { //2
@@ -197,6 +191,7 @@ public class Automovel implements Serializable, BaseEntity,IAutomovel{
         }
         return "Sem Categoria"; //22
     }
+    
 public boolean salvar(DAO automovelDAO) {
         return automovelDAO.salvar(this);
     }

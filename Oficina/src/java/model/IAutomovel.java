@@ -7,7 +7,7 @@ package model;
 
 
 public interface IAutomovel {
- public int hashCode();
+ public int hashCode(IAutomovel automovel);
  
  public Integer idAutomovel();
 }
