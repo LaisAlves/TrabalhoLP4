@@ -6,6 +6,7 @@
 package model;
 
 import converter.BaseEntity;
+import dao.DAO;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,7 +19,7 @@ import javax.validation.constraints.Size;
 
 @Entity(name = "Automovel")
 @Table(name = "automovel")
-public class Automovel implements Serializable, BaseEntity {
+public class Automovel implements Serializable, BaseEntity,IAutomovel{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -127,10 +128,11 @@ public class Automovel implements Serializable, BaseEntity {
         this.custoTotal = custoTotal;
     }
 
-    @Override
-    public int hashCode() {
+    
+    public int hashCode(IAutomovel automovel) {
         int hash = 0;
-        hash += (idAutomovel != null ? idAutomovel.hashCode() : 0);
+        Integer id = automovel.idAutomovel();
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -184,4 +186,15 @@ public class Automovel implements Serializable, BaseEntity {
         }
         return "Sem Categoria"; //22
     }
+public boolean salvar(DAO automovelDAO) {
+        return automovelDAO.salvar(this);
+    }
+
+    @Override
+    public Integer idAutomovel() {
+return this.idAutomovel;       
+    }
+
+   
+    
 }
