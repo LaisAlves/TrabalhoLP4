@@ -5,7 +5,6 @@
  */
 package model;
 
-import converter.BaseEntity;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -20,10 +19,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
+/**
+ *
+ * @author lucas
+ */
 @Entity(name = "Frequencia")
 @Table(name = "frequencia")
-public class Frequencia implements Serializable, BaseEntity {
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Frequencia.findAll", query = "SELECT f FROM Frequencia f")
+    , @NamedQuery(name = "Frequencia.findByIdFrequencia", query = "SELECT f FROM Frequencia f WHERE f.idFrequencia = :idFrequencia")
+    , @NamedQuery(name = "Frequencia.findByData", query = "SELECT f FROM Frequencia f WHERE f.data = :data")
+    , @NamedQuery(name = "Frequencia.findByEstado", query = "SELECT f FROM Frequencia f WHERE f.estado = :estado")})
+public class Frequencia implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -122,8 +130,4 @@ public class Frequencia implements Serializable, BaseEntity {
         return "model.Frequencia[ idFrequencia=" + idFrequencia + " ]";
     }
 
-    @Override
-    public Long pegarId() {
-        return new Long(idFrequencia);
-    }
 }

@@ -5,7 +5,6 @@
  */
 package model;
 
-import converter.BaseEntity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -19,13 +18,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
-
+/**
+ *
+ * @author lucas
+ */
 @Entity(name = "Pessoa")
 @Table(name = "pessoa")
-public class Pessoa implements Serializable, BaseEntity {
+public class Pessoa implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fKpessoa")
-
     private Collection<Integrante> integranteCollection;
 
     private static final long serialVersionUID = 1L;
@@ -200,8 +201,4 @@ public class Pessoa implements Serializable, BaseEntity {
         this.integranteCollection = integranteCollection;
     }
 
-    @Override
-    public Long pegarId() {
-        return new Long(idPessoa);
-    }
 }

@@ -5,7 +5,6 @@
  */
 package model;
 
-import converter.BaseEntity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -19,10 +18,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
-
+/**
+ *
+ * @author lucas
+ */
 @Entity(name = "Tipopista")
 @Table(name = "tipopista")
-public class Tipopista implements Serializable, BaseEntity {
+public class Tipopista implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fKtipopista")
     private Collection<Desempenhoteste> desempenhotesteCollection;
@@ -70,8 +72,8 @@ public class Tipopista implements Serializable, BaseEntity {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idTipopista != null ? idTipopista.hashCode() : 0);//1 //2
-        return hash;//3
+        hash += (idTipopista != null ? idTipopista.hashCode() : 0);
+        return hash;
     }
 
     @Override
@@ -99,11 +101,6 @@ public class Tipopista implements Serializable, BaseEntity {
 
     public void setDesempenhotesteCollection(Collection<Desempenhoteste> desempenhotesteCollection) {
         this.desempenhotesteCollection = desempenhotesteCollection;
-    }
-
-    @Override
-    public Long pegarId() {
-        return new Long(idTipopista);
     }
 
 }

@@ -5,7 +5,10 @@
  */
 package model;
 
+<<<<<<< HEAD
 import converter.BaseEntity;
+=======
+>>>>>>> ee05279ac71b7eb99a32dd197628a68d9ff3b5df
 import dao.DAO;
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -16,10 +19,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 @Entity(name = "Automovel")
 @Table(name = "automovel")
+<<<<<<< HEAD
 public class Automovel implements Serializable, BaseEntity,IAutomovel{
+=======
+public class Automovel implements Serializable {
+>>>>>>> ee05279ac71b7eb99a32dd197628a68d9ff3b5df
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -128,8 +134,46 @@ public class Automovel implements Serializable, BaseEntity,IAutomovel{
         this.custoTotal = custoTotal;
     }
 
+<<<<<<< HEAD
     
     public int hashCode(IAutomovel automovel) {
+=======
+    public String getCategoria() {
+        if (this.pesoCarro <= 100) {
+            if (this.custoTotal <= 50) {
+                return "Carroça - Amador";
+            } else if (this.custoTotal < 100) {
+                return "Carroça - Intermediário";
+            } else if (this.custoTotal <= 150) {
+                return "Carroça - Profissional";
+            }
+        } else if (this.pesoCarro < 300) {
+            if (this.custoTotal <= 50) {
+                return "Baja - Amador";
+            } else if (this.custoTotal < 100) {
+                return "Baja - Intermediário";
+            } else if (this.custoTotal <= 150) {
+                return "Baja - Profissional";
+            }
+        } else if (this.pesoCarro <= 500) {
+            if (this.custoTotal <= 50) {
+                return "Bugre - Amador";
+            } else if (this.custoTotal < 100) {
+                return "Bugre - Intermediário";
+            } else if (this.custoTotal <= 150) {
+                return "Bugre - Profissional";
+            }
+        }
+        return "Sem Categoria";
+    }
+
+    public boolean salvar(DAO automovelDAO) {
+        return automovelDAO.salvar(this);
+    }
+
+    @Override
+    public int hashCode() {
+>>>>>>> ee05279ac71b7eb99a32dd197628a68d9ff3b5df
         int hash = 0;
         Integer id = automovel.idAutomovel();
         hash += (id != null ? id.hashCode() : 0);
@@ -153,6 +197,7 @@ public class Automovel implements Serializable, BaseEntity,IAutomovel{
     public String toString() {
         return "model.Automovel[ idAutomovel=" + idAutomovel + " ]";
     }
+<<<<<<< HEAD
 
     @Override
     public Long pegarId() {
@@ -197,4 +242,6 @@ return this.idAutomovel;
 
    
     
+=======
+>>>>>>> ee05279ac71b7eb99a32dd197628a68d9ff3b5df
 }
