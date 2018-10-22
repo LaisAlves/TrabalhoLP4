@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ManterDesempenhoController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;oficinaCorrida&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">ManterDesempenhoController.java</span></div><h1>ManterDesempenhoController.java</h1><pre class="source lang-java linenums">package controller;
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+import dao.AutomovelDAO;
+import dao.DesempenhoDAO;
+import dao.IntegranteDAO;
+import dao.TipopistaDAO;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import model.Automovel;
+import model.Desempenho;
+import model.Integrante;
+import model.Tipopista;
+
+/**
+ *
+ * @author Marco
+ */
+<span class="nc" id="L28">public class ManterDesempenhoController extends HttpServlet {</span>
+
+    private Desempenho desempenho;
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L34">        String acao = request.getParameter(&quot;acao&quot;);</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (acao.equals(&quot;prepararOperacao&quot;)) {</span>
+            try {
+<span class="nc" id="L37">                prepararOperacao(request, response);</span>
+<span class="nc" id="L38">            } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L39">                Logger.getLogger(ManterDesempenhoController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L40">            }</span>
+        }
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (acao.equals(&quot;confirmarOperacao&quot;)) {</span>
+<span class="nc" id="L43">            confirmarOperacao(request, response);</span>
+        }
+
+<span class="nc" id="L46">    }</span>
+
+    public void prepararOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, ClassNotFoundException {
+        try {
+<span class="nc" id="L50">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
+<span class="nc" id="L51">            request.setAttribute(&quot;operacao&quot;, operacao);</span>
+            //chave estrangeira 
+<span class="nc" id="L53">            request.setAttribute(&quot;automoveis&quot;, AutomovelDAO.obterAutomoveis());</span>
+<span class="nc" id="L54">            request.setAttribute(&quot;tipospista&quot;, TipopistaDAO.obterTiposPista());</span>
+<span class="nc" id="L55">            request.setAttribute(&quot;integrantes&quot;, IntegranteDAO.getInstance().obterIntegrantes());</span>
+            //fim chave estrangeira
+<span class="nc bnc" id="L57" title="All 2 branches missed.">            if (!operacao.equals(&quot;Incluir&quot;)) {</span>
+<span class="nc" id="L58">                Integer idDesempenho = Integer.parseInt(request.getParameter(&quot;idDesempenho&quot;));</span>
+<span class="nc" id="L59">                desempenho = DesempenhoDAO.getInstance().getDesempenho(idDesempenho);</span>
+<span class="nc" id="L60">                request.setAttribute(&quot;desempenho&quot;, desempenho);</span>
+            }
+<span class="nc" id="L62">            RequestDispatcher view = request.getRequestDispatcher(&quot;/manterDesempenho.jsp&quot;);</span>
+<span class="nc" id="L63">            view.forward(request, response);</span>
+<span class="nc" id="L64">        } catch (ServletException e) {</span>
+<span class="nc" id="L65">            throw e;</span>
+<span class="nc" id="L66">        } catch (IOException e) {</span>
+<span class="nc" id="L67">            throw new ServletException(e);</span>
+<span class="nc" id="L68">        }</span>
+
+<span class="nc" id="L70">    }</span>
+
+    public void confirmarOperacao(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+<span class="nc" id="L75">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
+<span class="nc" id="L76">            int idDesempenho = Integer.parseInt(request.getParameter(&quot;txtIdDesempenho&quot;));</span>
+<span class="nc" id="L77">            String nome = request.getParameter(&quot;txtNome&quot;);</span>
+<span class="nc" id="L78">            String data = request.getParameter(&quot;txtData&quot;);</span>
+<span class="nc" id="L79">            String hora = request.getParameter(&quot;txtHora&quot;);</span>
+<span class="nc" id="L80">            float velocidadeMedia = Float.parseFloat(request.getParameter(&quot;txtVelocidadeMedia&quot;));</span>
+<span class="nc" id="L81">            float aceleracaoMedia = Float.parseFloat(request.getParameter(&quot;txtAceleracaoMedia&quot;));</span>
+<span class="nc" id="L82">            String tempoPista = request.getParameter(&quot;txtTempoPista&quot;);</span>
+<span class="nc" id="L83">            float frenagem = Float.parseFloat(request.getParameter(&quot;txtFrenagem&quot;));</span>
+            //chave estrangeira
+<span class="nc" id="L85">            Integer idAutomovel = Integer.parseInt(request.getParameter(&quot;selectAutomovel&quot;));</span>
+<span class="nc" id="L86">            Integer idTipopista = Integer.parseInt(request.getParameter(&quot;selectTipopista&quot;));</span>
+<span class="nc" id="L87">            Integer matricula = Integer.parseInt(request.getParameter(&quot;selectIntegrante&quot;));</span>
+<span class="nc" id="L88">            Automovel automovel = null;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (idAutomovel != 0) {</span>
+<span class="nc" id="L90">                automovel = AutomovelDAO.getInstance().getAutomovel(idAutomovel);</span>
+            }
+<span class="nc" id="L92">            Tipopista tipopista = null;</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">            if (idTipopista != 0) {</span>
+<span class="nc" id="L94">                tipopista = TipopistaDAO.getInstance().getTipopista(idTipopista);</span>
+            }
+<span class="nc" id="L96">            Integrante integrante = null;</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">            if (matricula != 0) {</span>
+<span class="nc" id="L98">                integrante = IntegranteDAO.getInstance().getIntegrante(matricula);</span>
+            }
+            //fim chave estrangeira
+<span class="nc bnc" id="L101" title="All 14 branches missed.">            switch (operacao) {</span>
+                case &quot;Incluir&quot;:
+<span class="nc" id="L103">                    desempenho = new Desempenho(idDesempenho, nome, data, hora, velocidadeMedia, aceleracaoMedia, tempoPista, frenagem, automovel, integrante, tipopista);</span>
+<span class="nc" id="L104">                    DesempenhoDAO.getInstance().salvar(desempenho);</span>
+<span class="nc" id="L105">                    break;</span>
+                case &quot;Editar&quot;:
+<span class="nc" id="L107">                    desempenho.setNome(nome);</span>
+<span class="nc" id="L108">                    desempenho.setData(data);</span>
+<span class="nc" id="L109">                    desempenho.setHora(hora);</span>
+<span class="nc" id="L110">                    desempenho.setVelocidadeMedia(velocidadeMedia);</span>
+<span class="nc" id="L111">                    desempenho.setAceleracaoMedia(aceleracaoMedia);</span>
+<span class="nc" id="L112">                    desempenho.setTempoPista(tempoPista);</span>
+<span class="nc" id="L113">                    desempenho.setFrenagem(frenagem);</span>
+<span class="nc" id="L114">                    desempenho.setFKautomovel(automovel);</span>
+<span class="nc" id="L115">                    desempenho.setFKtipopista(tipopista);</span>
+<span class="nc" id="L116">                    desempenho.setFKmotorista(integrante);</span>
+<span class="nc" id="L117">                    DesempenhoDAO.getInstance().alterar(desempenho);</span>
+<span class="nc" id="L118">                    break;</span>
+                case &quot;Excluir&quot;:
+<span class="nc" id="L120">                    DesempenhoDAO.getInstance().excluir(desempenho);</span>
+<span class="nc" id="L121">                    break;</span>
+                default:
+                    break;
+            }
+<span class="nc" id="L125">            RequestDispatcher view = request.getRequestDispatcher(&quot;PesquisarDesempenhoController&quot;);</span>
+<span class="nc" id="L126">            view.forward(request, response);</span>
+
+<span class="nc" id="L128">        } catch (ServletException e) {</span>
+<span class="nc" id="L129">            throw e;</span>
+<span class="nc" id="L130">        } catch (IOException e) {</span>
+<span class="nc" id="L131">            throw new ServletException(e);</span>
+<span class="nc" id="L132">        }</span>
+<span class="nc" id="L133">    }</span>
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
+
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+<span class="nc" id="L148">        processRequest(request, response);</span>
+
+<span class="nc" id="L150">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L163">        processRequest(request, response);</span>
+
+<span class="nc" id="L165">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L174">        return &quot;Short description&quot;;</span>
+    }// &lt;/editor-fold&gt;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

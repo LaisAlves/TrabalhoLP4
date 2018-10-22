@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Integrante.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;oficinaCorrida&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Integrante.java</span></div><h1>Integrante.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model;
+
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+/**
+ *
+ * @author lucas
+ */
+@Entity(name = &quot;Integrante&quot;)
+@Table(name = &quot;integrante&quot;)
+public class Integrante implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;matricula&quot;)
+    private Integer matricula;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 8)
+    @Column(name = &quot;cargaHorariaDisponivel&quot;)
+    private String cargaHorariaDisponivel;
+
+<span class="nc" id="L39">    public Integrante(Integer matricula, String cargaHorariaDisponivel, Pessoa fKpessoa) {</span>
+<span class="nc" id="L40">        this.matricula = matricula;</span>
+<span class="nc" id="L41">        this.cargaHorariaDisponivel = cargaHorariaDisponivel;</span>
+<span class="nc" id="L42">        this.fKpessoa = fKpessoa;</span>
+<span class="nc" id="L43">    }</span>
+
+    @JoinColumn(name = &quot;FK_pessoa&quot;, referencedColumnName = &quot;idPessoa&quot;)
+    @ManyToOne(optional = false)
+    private Pessoa fKpessoa;
+
+<span class="nc" id="L49">    public Integrante() {</span>
+<span class="nc" id="L50">    }</span>
+
+<span class="nc" id="L52">    public Integrante(Integer matricula) {</span>
+<span class="nc" id="L53">        this.matricula = matricula;</span>
+<span class="nc" id="L54">    }</span>
+
+<span class="nc" id="L56">    public Integrante(Integer matricula, String cargaHorariaDisponivel) {</span>
+<span class="nc" id="L57">        this.matricula = matricula;</span>
+<span class="nc" id="L58">        this.cargaHorariaDisponivel = cargaHorariaDisponivel;</span>
+<span class="nc" id="L59">    }</span>
+
+    public Integer getMatricula() {
+<span class="nc" id="L62">        return matricula;</span>
+    }
+
+    public void setMatricula(Integer matricula) {
+<span class="nc" id="L66">        this.matricula = matricula;</span>
+<span class="nc" id="L67">    }</span>
+
+    public String getCargaHorariaDisponivel() {
+<span class="nc" id="L70">        return cargaHorariaDisponivel;</span>
+    }
+
+    public void setCargaHorariaDisponivel(String cargaHorariaDisponivel) {
+<span class="nc" id="L74">        this.cargaHorariaDisponivel = cargaHorariaDisponivel;</span>
+<span class="nc" id="L75">    }</span>
+
+    public Pessoa getFKpessoa() {
+<span class="nc" id="L78">        return fKpessoa;</span>
+    }
+
+    public void setFKpessoa(Pessoa fKpessoa) {
+<span class="nc" id="L82">        this.fKpessoa = fKpessoa;</span>
+<span class="nc" id="L83">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L87">        int hash = 0;</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        hash += (matricula != null ? matricula.hashCode() : 0);</span>
+<span class="nc" id="L89">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (!(object instanceof Integrante)) {</span>
+<span class="nc" id="L96">            return false;</span>
+        }
+<span class="nc" id="L98">        Integrante other = (Integrante) object;</span>
+<span class="nc bnc" id="L99" title="All 8 branches missed.">        if ((this.matricula == null &amp;&amp; other.matricula != null) || (this.matricula != null &amp;&amp; !this.matricula.equals(other.matricula))) {</span>
+<span class="nc" id="L100">            return false;</span>
+        }
+<span class="nc" id="L102">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L107">        return &quot;model.Integrante[ matricula=&quot; + matricula + &quot; ]&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

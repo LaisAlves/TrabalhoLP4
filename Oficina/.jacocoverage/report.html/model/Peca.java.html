@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Peca.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;oficinaCorrida&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Peca.java</span></div><h1>Peca.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model;
+
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+/**
+ *
+ * @author lucas
+ */
+@Entity(name = &quot;Peca&quot;)
+@Table(name = &quot;peca&quot;)
+public class Peca implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;idPeca&quot;)
+    private Integer idPeca;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;quantidade&quot;)
+    private int quantidade;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 40)
+    @Column(name = &quot;nome&quot;)
+    private String nome;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 40)
+    @Column(name = &quot;modelo&quot;)
+    private String modelo;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;precoCompra&quot;)
+    private float precoCompra;
+    @JoinColumn(name = &quot;FK_tipopeca&quot;, referencedColumnName = &quot;idTipopeca&quot;)
+    @ManyToOne(optional = false)
+    private Tipopeca fKtipopeca;
+
+<span class="nc" id="L55">    public Peca(Integer idPeca, int quantidade, String nome, String modelo, float precoCompra, Tipopeca fKtipopeca) {</span>
+<span class="nc" id="L56">        this.idPeca = idPeca;</span>
+<span class="nc" id="L57">        this.quantidade = quantidade;</span>
+<span class="nc" id="L58">        this.nome = nome;</span>
+<span class="nc" id="L59">        this.modelo = modelo;</span>
+<span class="nc" id="L60">        this.precoCompra = precoCompra;</span>
+<span class="nc" id="L61">        this.fKtipopeca = fKtipopeca;</span>
+<span class="nc" id="L62">    }</span>
+
+<span class="nc" id="L64">    public Peca() {</span>
+<span class="nc" id="L65">    }</span>
+
+<span class="nc" id="L67">    public Peca(Integer idPeca) {</span>
+<span class="nc" id="L68">        this.idPeca = idPeca;</span>
+<span class="nc" id="L69">    }</span>
+
+<span class="nc" id="L71">    public Peca(Integer idPeca, int quantidade, String nome, String modelo, float precoCompra) {</span>
+<span class="nc" id="L72">        this.idPeca = idPeca;</span>
+<span class="nc" id="L73">        this.quantidade = quantidade;</span>
+<span class="nc" id="L74">        this.nome = nome;</span>
+<span class="nc" id="L75">        this.modelo = modelo;</span>
+<span class="nc" id="L76">        this.precoCompra = precoCompra;</span>
+<span class="nc" id="L77">    }</span>
+
+    public Integer getIdPeca() {
+<span class="nc" id="L80">        return idPeca;</span>
+    }
+
+    public void setIdPeca(Integer idPeca) {
+<span class="nc" id="L84">        this.idPeca = idPeca;</span>
+<span class="nc" id="L85">    }</span>
+
+    public int getQuantidade() {
+<span class="nc" id="L88">        return quantidade;</span>
+    }
+
+    public void setQuantidade(int quantidade) {
+<span class="nc" id="L92">        this.quantidade = quantidade;</span>
+<span class="nc" id="L93">    }</span>
+
+    public String getNome() {
+<span class="nc" id="L96">        return nome;</span>
+    }
+
+    public void setNome(String nome) {
+<span class="nc" id="L100">        this.nome = nome;</span>
+<span class="nc" id="L101">    }</span>
+
+    public String getModelo() {
+<span class="nc" id="L104">        return modelo;</span>
+    }
+
+    public void setModelo(String modelo) {
+<span class="nc" id="L108">        this.modelo = modelo;</span>
+<span class="nc" id="L109">    }</span>
+
+    public float getPrecoCompra() {
+<span class="nc" id="L112">        return precoCompra;</span>
+    }
+
+    public void setPrecoCompra(float precoCompra) {
+<span class="nc" id="L116">        this.precoCompra = precoCompra;</span>
+<span class="nc" id="L117">    }</span>
+
+    public Tipopeca getFKtipopeca() {
+<span class="nc" id="L120">        return fKtipopeca;</span>
+    }
+
+    public void setFKtipopeca(Tipopeca fKtipopeca) {
+<span class="nc" id="L124">        this.fKtipopeca = fKtipopeca;</span>
+<span class="nc" id="L125">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L129">        int hash = 0;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        hash += (idPeca != null ? idPeca.hashCode() : 0);</span>
+<span class="nc" id="L131">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (!(object instanceof Peca)) {</span>
+<span class="nc" id="L138">            return false;</span>
+        }
+<span class="nc" id="L140">        Peca other = (Peca) object;</span>
+<span class="nc bnc" id="L141" title="All 8 branches missed.">        if ((this.idPeca == null &amp;&amp; other.idPeca != null) || (this.idPeca != null &amp;&amp; !this.idPeca.equals(other.idPeca))) {</span>
+<span class="nc" id="L142">            return false;</span>
+        }
+<span class="nc" id="L144">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L149">        return &quot;model.Peca[ idPeca=&quot; + idPeca + &quot; ]&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

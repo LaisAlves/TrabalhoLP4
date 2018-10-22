@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  *
  * @author LaisAlves
  */
-/*
+
 public class TesteAutomovel {
     
     public TesteAutomovel() {
@@ -107,7 +107,7 @@ public class TesteAutomovel {
     public void testCarroAmador(){
         automovel.setPesoCarro(100);
         automovel.setCustoTotal(50);
-        String resultadoEsperado = "Carro - Amador";
+        String resultadoEsperado = "CarroAmador";
         String resultado = automovel.getCategoria();
         assertEquals(resultadoEsperado,resultado);
     }
@@ -115,7 +115,7 @@ public class TesteAutomovel {
     public void testCarroIntermediario(){
         automovel.setPesoCarro(100);
         automovel.setCustoTotal(99);
-        String resultadoEsperado = "Carro - Intermediário";
+        String resultadoEsperado = "CarroIntermediário";
         String resultado = automovel.getCategoria();
         assertEquals(resultadoEsperado,resultado);
     }
@@ -123,7 +123,7 @@ public class TesteAutomovel {
     public void testCarroProfissional(){
         automovel.setPesoCarro(100);
         automovel.setCustoTotal(150);
-        String resultadoEsperado = "Carro - Profissional";
+        String resultadoEsperado = "CarroProfissional";
         String resultado = automovel.getCategoria();
         assertEquals(resultadoEsperado,resultado);
     }
@@ -131,7 +131,7 @@ public class TesteAutomovel {
     public void testCarroSemCategoria1(){
         automovel.setPesoCarro(100);
         automovel.setCustoTotal(151);
-        String resultadoEsperado = "Sem Categoria";
+        String resultadoEsperado = "SemCategoria";
         String resultado = automovel.getCategoria();
         assertEquals(resultadoEsperado,resultado);
     }
@@ -139,7 +139,7 @@ public class TesteAutomovel {
     public void testAmador(){
         automovel.setPesoCarro(299);
         automovel.setCustoTotal(50);
-        String resultadoEsperado = " Amador";
+        String resultadoEsperado = "Amador";
         String resultado = automovel.getCategoria();
         assertEquals(resultadoEsperado,resultado);
     }
@@ -147,7 +147,7 @@ public class TesteAutomovel {
     public void testIntermediario(){
         automovel.setPesoCarro(299);
         automovel.setCustoTotal(99);
-        String resultadoEsperado = "  Intermediário";
+        String resultadoEsperado = "Intermediário";
         String resultado = automovel.getCategoria();
         assertEquals(resultadoEsperado,resultado);
     }
@@ -155,7 +155,7 @@ public class TesteAutomovel {
     public void testProfissional(){
         automovel.setPesoCarro(299);
         automovel.setCustoTotal(149);
-        String resultadoEsperado = " Profissional";
+        String resultadoEsperado = "Profissional";
         String resultado = automovel.getCategoria();
         assertEquals(resultadoEsperado,resultado);
     }
@@ -163,7 +163,7 @@ public class TesteAutomovel {
     public void testSemCategoria2(){
         automovel.setPesoCarro(299);
         automovel.setCustoTotal(151);
-        String resultadoEsperado = "Sem Categoria";
+        String resultadoEsperado = "SemCategoria";
         String resultado = automovel.getCategoria();
         assertEquals(resultadoEsperado,resultado);
     }
@@ -171,7 +171,7 @@ public class TesteAutomovel {
     public void testBugreAmador(){
         automovel.setPesoCarro(500);
         automovel.setCustoTotal(50);
-        String resultadoEsperado = "Bugre - Amador";
+        String resultadoEsperado = "BugreAmador";
         String resultado = automovel.getCategoria();
         assertEquals(resultadoEsperado,resultado);
     }
@@ -179,7 +179,7 @@ public class TesteAutomovel {
     public void testBugreIntermediario(){
         automovel.setPesoCarro(500);
         automovel.setCustoTotal(99);
-        String resultadoEsperado = "Bugre - Intermediário";
+        String resultadoEsperado = "BugreIntermediário";
         String resultado = automovel.getCategoria();
         assertEquals(resultadoEsperado,resultado);
     }
@@ -187,16 +187,15 @@ public class TesteAutomovel {
     public void testBugreProfissional(){
         automovel.setPesoCarro(500);
         automovel.setCustoTotal(150);
-        String resultadoEsperado = "Bugre - Profissional";
+        String resultadoEsperado = "BugreProfissional";
         String resultado = automovel.getCategoria();
         assertEquals(resultadoEsperado,resultado);
     }
      public void testSemCategoria3(){
         automovel.setPesoCarro(501);
-        //automovel.setCustoTotal(150);
-        String resultadoEsperado = "Sem Categoria";
+        automovel.setCustoTotal(150);
+        String resultadoEsperado = "SemCategoria";
         String resultado = automovel.getCategoria();
         assertEquals(resultadoEsperado,resultado);
     }
 }
-*/
