@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  *
  * @author LaisAlves
  */
-/*
+
 public class TesteAutomovel {
     
     public TesteAutomovel() {
@@ -199,4 +199,3 @@ public class TesteAutomovel {
         assertEquals(resultadoEsperado,resultado);
     }
 }
-*/
