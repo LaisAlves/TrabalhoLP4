@@ -28,7 +28,7 @@ import static org.easymock.EasyMock.replay;
  */
 public class testeMock extends TestCase{
     
-   
+  /* 
 public void testSalvarAutomovelDAO() {
         Automovel automovel = new Automovel();
         DAO automovelDAO = AutomovelDAO.getInstance();
@@ -44,6 +44,7 @@ public void testSalvarAutomovelDAO() {
 
         assertTrue(automovel.salvar(automovelDAOMock));
     }
+*/
      public void testHashCodeNull() {
         IAutomovel automovelMock = createMock(IAutomovel.class);
         
