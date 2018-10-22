@@ -7,6 +7,8 @@ package controller;
 import dao.PessoaDAO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,7 +32,11 @@ public class PesquisarPessoaController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("pessoas", PessoaDAO.getInstance().obterPessoas());
+        try {
+            request.setAttribute("pessoas", PessoaDAO.obterPessoas());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PesquisarPessoaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         RequestDispatcher view = request.getRequestDispatcher("/pesquisarPessoa.jsp");
         view.forward(request, response);
     }

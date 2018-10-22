@@ -63,52 +63,52 @@
        
         <div class="container">
             <h3 align="center">${operacao} Automóvel</h3>
-            <form action="ManterAutomovelController?acao=confirmarOperacao&operacao=${operacao}" method="POST" name="frmManterAutomovel">
+            <form action="ManterAutomovelController?acao=confirmarOperacao" method="POST" name="frmManterAutomovel">
                 <div class="row">
                     <div class="input-field col s6 offset-m3" >
-                        <input id="id" name="txtIdAutomovel" class="validate" type="text" required="required"  pattern="[0-9]+$" value="${automovel.idAutomovel}" <c:if test="${operacao != 'Incluir'}"> readonly</c:if>>
+                        <input id="id" name="txtIdAutomovel" class="validate" type="text" required="required"  pattern="[0-9]+$" value="${automovel.idAutomovel}" <c:if test="${operacao != 'Incluir'}"> </c:if>
                             <label data-error="errado" data-success="certo" for="id">ID</label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field col s6 offset-m3">
-                            <input id="nome" name="txtNome" type="text" value="${automovel.nome}" required="required" <c:if test="${operacao == 'Excluir'}"> readonly</c:if>>
+                            <input id="nome" name="txtNome" type="text" value="${automovel.nome}" required="required" <c:if test="${operacao == 'Excluir'}"> </c:if>
                             <label for="nome">Nome</label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field col s6 offset-m3">
-                            <input id="cor" name="txtCor" type="text" required="required" value="${automovel.cor}" <c:if test="${operacao == 'Excluir'}"> readonly</c:if>>
+                            <input id="cor" name="txtCor" type="text" required="required" value="${automovel.cor}" <c:if test="${operacao == 'Excluir'}"> </c:if>
                             <label for="nome">Cor</label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field col s6 offset-m3">
-                            <input id="dataTermino" name="txtDataTerminoProjeto" class="datepicker" type="text" required="required" value="${automovel.dataTerminoProjeto}" <c:if test="${operacao == 'Excluir'}"> disabled</c:if>>
+                            <input id="dataTermino" name="txtDataTerminoProjeto" class="datepicker" type="text" required="required" value="${automovel.dataTerminoProjeto}" <c:if test="${operacao == 'Excluir'}"></c:if>
                             <label for="dataTermino">Data Término Projeto</label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field col s6 offset-m3">
-                            <input id="pesoCarro" name="txtPesoCarro" class="validate" type="text" required="required" pattern="(?:\d*\.)?\d+" value="${automovel.pesoCarro}"  <c:if test="${operacao == 'Excluir'}"> readonly</c:if>>
+                            <input id="pesoCarro" name="txtPesoCarro" class="validate" type="text" required="required" pattern="(?:\d*\.)?\d+" value="${automovel.pesoCarro}"  <c:if test="${operacao == 'Excluir'}"> </c:if>
                             <label data-error="errado" data-success="certo" for="pesoCarro">Peso Carro</label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field col s6 offset-m3">
-                            <input id="pesoChassi" class="validate" type="text" required="required" pattern="(?:\d*\.)?\d+" name="txtPesoChassi"  value="${automovel.pesoChassi}"  <c:if test="${operacao == 'Excluir'}"> readonly</c:if>>
+                            <input id="pesoChassi" class="validate" type="text" required="required" pattern="(?:\d*\.)?\d+" name="txtPesoChassi"  value="${automovel.pesoChassi}"  <c:if test="${operacao == 'Excluir'}"> </c:if>
                             <label data-error="errado" data-success="certo" for="pesoChassi">Peso Chassi</label>
                         </div>
                     </div>   
 
                     <div class="row">
                         <div class="input-field col s6 offset-m3">
-                            <input id="custo" type="text" class="validate" required="required" pattern="(?:\d*\.)?\d+" name="txtCustoTotal"  value="${automovel.custoTotal}" <c:if test="${operacao == 'Excluir'}"> readonly</c:if>>
+                            <input id="custo" type="text" class="validate" required="required" pattern="(?:\d*\.)?\d+" name="txtCustoTotal"  value="${automovel.custoTotal}" <c:if test="${operacao == 'Excluir'}"> </c:if>
                         <label data-error="errado" data-success="certo" for="custo">Custo Total</label>
                     </div>
                 </div>

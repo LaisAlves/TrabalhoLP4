@@ -8,6 +8,8 @@ import dao.DesempenhoDAO;
 import dao.TipopistaDAO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +35,11 @@ public class PesquisarDesempenhoController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("desempenhos", DesempenhoDAO.getInstance().obterDesempenhos());
-        request.setAttribute("tipospista", TipopistaDAO.getInstance().obterTipospista());
+        try {
+            request.setAttribute("tipospista", TipopistaDAO.obterTiposPista());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PesquisarDesempenhoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         RequestDispatcher view = request.getRequestDispatcher("/pesquisarDesempenho.jsp");
         view.forward(request, response);
     }

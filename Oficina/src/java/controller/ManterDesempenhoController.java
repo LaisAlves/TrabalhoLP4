@@ -9,6 +9,8 @@ import dao.DesempenhoDAO;
 import dao.IntegranteDAO;
 import dao.TipopistaDAO;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,7 +33,11 @@ public class ManterDesempenhoController extends HttpServlet {
             throws ServletException, IOException {
         String acao = request.getParameter("acao");
         if (acao.equals("prepararOperacao")) {
-            prepararOperacao(request, response);
+            try {
+                prepararOperacao(request, response);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ManterDesempenhoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if (acao.equals("confirmarOperacao")) {
             confirmarOperacao(request, response);
@@ -39,13 +45,13 @@ public class ManterDesempenhoController extends HttpServlet {
 
     }
 
-    public void prepararOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    public void prepararOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, ClassNotFoundException {
         try {
             String operacao = request.getParameter("operacao");
             request.setAttribute("operacao", operacao);
             //chave estrangeira 
-            request.setAttribute("automoveis", AutomovelDAO.getInstance().obterAutomoveis());
-            request.setAttribute("tipospista", TipopistaDAO.getInstance().obterTipospista());
+            request.setAttribute("automoveis", AutomovelDAO.obterAutomoveis());
+            request.setAttribute("tipospista", TipopistaDAO.obterTiposPista());
             request.setAttribute("integrantes", IntegranteDAO.getInstance().obterIntegrantes());
             //fim chave estrangeira
             if (!operacao.equals("Incluir")) {

@@ -4,12 +4,19 @@
  */
 package dao;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
+import model.Automovel;
 import model.Integrante;
+import model.Pessoa;
 
 public class IntegranteDAO {
 
@@ -92,25 +99,49 @@ public class IntegranteDAO {
         }
     }
 
-    // OBTER PARA OS SELECTS
-    public List<Integrante> obterIntegrantes() {
-        EntityManager em = PersistenceUtil.getEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        List<Integrante> integrantes = null;
+    public static List<Integrante> obterIntegrantes() throws ClassNotFoundException {
+        Connection conexao = null;
+        Statement comando = null;
+        List<Integrante> integrantes = new ArrayList<Integrante>();
         try {
-            tx.begin();
-            TypedQuery<Integrante> query = em.createQuery("select i from Integrante i", Integrante.class);
-            integrantes = query.getResultList();
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
+            conexao = BD.getConexao();
+            comando = conexao.createStatement();
+            ResultSet rs = comando.executeQuery("select * from integrante");
+            while (rs.next()) {
+
+                Pessoa p = new Pessoa();
+                Integrante i = new Integrante();
+                i.setMatricula(rs.getInt("matricula"));
+                i.setCargaHorariaDisponivel(rs.getString("cargaHorariaDisponivel"));
+                p.setIdPessoa(rs.getInt("FK_pessoa"));
+                i.setFKpessoa(p);
+
+                integrantes.add(i);
+
             }
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            PersistenceUtil.close(em);
+            fecharConexao(conexao, comando);
+
+            return integrantes;
         }
-        return integrantes;
+    }
+
+    private static void fecharConexao(Connection conexao, Statement comando) {
+        try {
+            if (comando != null) {
+                comando.close();
+            }
+            if (conexao != null) {
+                conexao.close();
+            }
+        } catch (SQLException e) {
+
+        }
+
     }
 
 }
+
+

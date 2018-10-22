@@ -7,6 +7,8 @@ package controller;
 import dao.AutomovelDAO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -29,8 +31,8 @@ public class PesquisarAutomovelController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setAttribute("automoveis", AutomovelDAO.getInstance().obterAutomoveis());
+            throws ServletException, IOException, ClassNotFoundException {
+        request.setAttribute("automoveis", AutomovelDAO.obterAutomoveis());
         RequestDispatcher view = request.getRequestDispatcher("/pesquisarAutomovel.jsp");
         view.forward(request, response);
     }
@@ -47,7 +49,11 @@ public class PesquisarAutomovelController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PesquisarAutomovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -61,7 +67,11 @@ public class PesquisarAutomovelController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PesquisarAutomovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

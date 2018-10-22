@@ -4,11 +4,17 @@
  */
 package dao;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
+import model.Automovel;
 import model.Tipopista;
 
 public class TipopistaDAO {
@@ -93,25 +99,43 @@ public class TipopistaDAO {
         }
     }
 
-    // OBTER PARA OS SELECTS
-    public List<Tipopista> obterTipospista() {
-        EntityManager em = PersistenceUtil.getEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        List<Tipopista> tiposPista = null;
+   public static List<Tipopista> obterTiposPista() throws ClassNotFoundException {
+        Connection conexao = null;
+        Statement comando = null;
+        List<Tipopista> tipospista = new ArrayList<Tipopista>();
         try {
-            tx.begin();
-            TypedQuery<Tipopista> query = em.createQuery("select t from Tipopista t", Tipopista.class);
-            tiposPista = query.getResultList();
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
+            conexao = BD.getConexao();
+            comando = conexao.createStatement();
+            ResultSet rs = comando.executeQuery("select * from tipopista");
+            while (rs.next()) {
+
+                Tipopista tipopista = new Tipopista(rs.getInt("idTipopista"), rs.getString("nome"));
+
+         
+                tipospista.add(tipopista);
+
             }
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            PersistenceUtil.close(em);
+            fecharConexao(conexao, comando);
+
         }
-        return tiposPista;
+        return tipospista;
+    }
+
+    private static void fecharConexao(Connection conexao, Statement comando) {
+        try {
+            if (comando != null) {
+                comando.close();
+            }
+            if (conexao != null) {
+                conexao.close();
+            }
+        } catch (SQLException e) {
+
+        }
+
     }
 
 }
