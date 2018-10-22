@@ -34,7 +34,12 @@ public class PesquisarDesempenhoController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("desempenhos", DesempenhoDAO.getInstance().obterDesempenhos());
+        try {
+            request.setAttribute("desempenhos", DesempenhoDAO.obterDesempenhos());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PesquisarDesempenhoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
         try {
             request.setAttribute("tipospista", TipopistaDAO.obterTiposPista());
         } catch (ClassNotFoundException ex) {
