@@ -4,6 +4,12 @@
  */
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -11,7 +17,7 @@ import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import model.Automovel;
 
-public class AutomovelDAO implements DAO {
+public class AutomovelDAO{
 
     private static AutomovelDAO instance = new AutomovelDAO();
 
@@ -22,29 +28,36 @@ public class AutomovelDAO implements DAO {
     private AutomovelDAO() {
     }
 
-    //CLASSES PADRÃO
-    @Override
-    public boolean salvar(Automovel automovel) {
-//        EntityManager em = PersistenceUtil.getEntityManager();
-//        EntityTransaction tx = em.getTransaction();
-//        try {
-//            tx.begin();
-//            em.persist(automovel);
-//            tx.commit();
-        return true;
-//        } catch (RollbackException e) {
-//            return false;
-//            throw new RollbackException("Para preservar a integridade do banco de dados, não foi possivel excluir o registro!", e);
-//        } catch (Exception e) {
-//            return false;
-//            if (tx != null && tx.isActive()) {
-//                tx.rollback();
-//            }
-//            throw new RuntimeException(e);
-//    }
-//        finally {
-//            PersistenceUtil.close(em);
-//        }
+     public static void gravar(Automovel automovel) throws SQLException, ClassNotFoundException {
+        Connection conexao = null;
+        try {
+            conexao = BD.getConexao();
+            // caso de herança tem qeu fazer para as duas classes .
+            String sql = "insert into automovel(id ,cor ,nome ,dataTerminoProjeto ,pesoCarro ,pesoChassi ,custoTotal) values(?,?,?,?,?,?,?)";
+            PreparedStatement comando = conexao.prepareStatement(sql);
+            
+            
+
+            comando.setInt(1, automovel.getIdAutomovel());
+            comando.setString(2, automovel.getCor());
+            comando.setString(3, automovel.getNome());
+            comando.setString(4, automovel.getDataTerminoProjeto());
+
+            comando.setFloat(5, automovel.getPesoCarro());
+            comando.setFloat(6, automovel.getPesoChassi());
+            comando.setFloat(7, automovel.getCustoTotal());
+           
+
+            
+            comando.execute();
+            comando.close();
+            conexao.close();
+
+        } catch (SQLException e) {
+
+            throw e;
+        }
+
     }
 
     public void alterar(Automovel automovel) {
@@ -104,26 +117,48 @@ public class AutomovelDAO implements DAO {
         }
     }
 
-    // OBTER PARA OS SELECTS
-    public List<Automovel> obterAutomoveis() {
-        EntityManager em = PersistenceUtil.getEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        List<Automovel> automoveis = null;
+
+    
+    
+    public static List<Automovel> obterAutomoveis() throws ClassNotFoundException {
+        Connection conexao = null;
+        Statement comando = null;
+        List<Automovel> automoveis = new ArrayList<Automovel>();
         try {
-            tx.begin();
-            TypedQuery<Automovel> query = em.createQuery("select a from Automovel a", Automovel.class
-            );
-            automoveis = query.getResultList();
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
+            conexao = BD.getConexao();
+            comando = conexao.createStatement();
+            ResultSet rs = comando.executeQuery("select * from automovel");
+            while (rs.next()) {
+
+                Automovel automovel = new Automovel(rs.getInt("idAutomovel"), rs.getString("cor"), rs.getString("nome"),
+                        rs.getString("dataTerminoProjeto"), rs.getFloat("pesoCarro"), rs.getFloat("pesoChassi"),
+                        rs.getFloat("custoTotal"));
+
+         
+                automoveis.add(automovel);
+
             }
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            PersistenceUtil.close(em);
+            fecharConexao(conexao, comando);
+
         }
         return automoveis;
+    }
+
+    private static void fecharConexao(Connection conexao, Statement comando) {
+        try {
+            if (comando != null) {
+                comando.close();
+            }
+            if (conexao != null) {
+                conexao.close();
+            }
+        } catch (SQLException e) {
+
+        }
+
     }
 
 }
