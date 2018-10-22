@@ -33,7 +33,7 @@ public class AutomovelDAO{
         try {
             conexao = BD.getConexao();
             // caso de herança tem qeu fazer para as duas classes .
-            String sql = "insert into automovel(id ,cor ,nome ,dataTerminoProjeto ,pesoCarro ,pesoChassi ,custoTotal) values(?,?,?,?,?,?,?)";
+            String sql = "insert into automovel(idAutomovel ,cor ,nome ,dataTerminoProjeto ,pesoCarro ,pesoChassi ,custoTotal) values(?,?,?,?,?,?,?)";
             PreparedStatement comando = conexao.prepareStatement(sql);
             
             

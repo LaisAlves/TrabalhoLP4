@@ -65,18 +65,16 @@ public class ManterAutomovelController extends HttpServlet {
         float pesoCarro = Float.parseFloat(request.getParameter("txtPesoCarro"));
         float pesoChassi = Float.parseFloat(request.getParameter("txtPesoChassi"));
         float custoTotal = Float.parseFloat(request.getParameter("txtCustoTotal"));
-         Automovel automovel = new Automovel(idAutomovel, cor, nome, dataTerminoProjeto, pesoCarro, pesoChassi, custoTotal);
+        Automovel automovel = new Automovel(idAutomovel, cor, nome, dataTerminoProjeto, pesoCarro, pesoChassi, custoTotal);
+
         try {
             AutomovelDAO.gravar(automovel);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ManterAutomovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
-       
-         
-               
-                
-        
+        RequestDispatcher view = request.getRequestDispatcher("/PesquisarAutomovelController");
+        view.forward(request, response);
+
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
