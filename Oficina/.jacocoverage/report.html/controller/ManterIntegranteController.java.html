@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ManterIntegranteController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;oficinaCorrida&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">ManterIntegranteController.java</span></div><h1>ManterIntegranteController.java</h1><pre class="source lang-java linenums">package controller;
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+import dao.IntegranteDAO;
+import dao.PessoaDAO;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import model.Integrante;
+import model.Pessoa;
+
+/**
+ *
+ * @author Marco
+ */
+<span class="nc" id="L26">public class ManterIntegranteController extends HttpServlet {</span>
+
+    private Integrante integrante;
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, ClassNotFoundException, SQLException {
+<span class="nc" id="L32">        String acao = request.getParameter(&quot;acao&quot;);</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (acao.equals(&quot;prepararOperacao&quot;)) {</span>
+<span class="nc" id="L34">            prepararOperacao(request, response);</span>
+        }
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (acao.equals(&quot;confirmarOperacao&quot;)) {</span>
+<span class="nc" id="L37">            confirmarOperacao(request, response);</span>
+        }
+
+<span class="nc" id="L40">    }</span>
+
+    public void prepararOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, ClassNotFoundException, SQLException {
+        try {
+<span class="nc" id="L44">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
+<span class="nc" id="L45">            request.setAttribute(&quot;operacao&quot;, operacao);</span>
+<span class="nc" id="L46">            request.setAttribute(&quot;pessoas&quot;, PessoaDAO.getInstance().obterPessoas());</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            if (!operacao.equals(&quot;Incluir&quot;)) {</span>
+<span class="nc" id="L48">                Integer matricula = Integer.parseInt(request.getParameter(&quot;matricula&quot;));</span>
+<span class="nc" id="L49">                integrante = IntegranteDAO.getInstance().getIntegrante(matricula);</span>
+<span class="nc" id="L50">                request.setAttribute(&quot;integrante&quot;, integrante);</span>
+            }
+<span class="nc" id="L52">            RequestDispatcher view = request.getRequestDispatcher(&quot;/manterIntegrante.jsp&quot;);</span>
+<span class="nc" id="L53">            view.forward(request, response);</span>
+<span class="nc" id="L54">        } catch (ServletException e) {</span>
+<span class="nc" id="L55">            throw e;</span>
+<span class="nc" id="L56">        } catch (IOException e) {</span>
+<span class="nc" id="L57">            throw new ServletException(e);</span>
+<span class="nc" id="L58">        }</span>
+
+<span class="nc" id="L60">    }</span>
+
+    public void confirmarOperacao(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+<span class="nc" id="L65">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
+<span class="nc" id="L66">            int matricula = Integer.parseInt(request.getParameter(&quot;txtMatricula&quot;));</span>
+<span class="nc" id="L67">            String cargaHorariaDisponivel = request.getParameter(&quot;txtCargaHorariaDisponivel&quot;);</span>
+            //chave estrangeira
+<span class="nc" id="L69">            Integer idPessoa = Integer.parseInt(request.getParameter(&quot;selectPessoa&quot;));</span>
+<span class="nc" id="L70">            Pessoa pessoa = null;</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (idPessoa != 0) {</span>
+<span class="nc" id="L72">                pessoa = PessoaDAO.getInstance().getPessoa(idPessoa);</span>
+            }
+<span class="nc bnc" id="L74" title="All 14 branches missed.">            switch (operacao) {</span>
+                case &quot;Incluir&quot;:
+<span class="nc" id="L76">                    integrante = new Integrante(matricula, cargaHorariaDisponivel, pessoa);</span>
+<span class="nc" id="L77">                    IntegranteDAO.getInstance().salvar(integrante);</span>
+<span class="nc" id="L78">                    break;</span>
+                case &quot;Editar&quot;:
+<span class="nc" id="L80">                    integrante.setCargaHorariaDisponivel(cargaHorariaDisponivel);</span>
+<span class="nc" id="L81">                    integrante.setFKpessoa(pessoa);</span>
+<span class="nc" id="L82">                    IntegranteDAO.getInstance().alterar(integrante);</span>
+<span class="nc" id="L83">                    break;</span>
+                case &quot;Excluir&quot;:
+<span class="nc" id="L85">                    IntegranteDAO.getInstance().excluir(integrante);</span>
+<span class="nc" id="L86">                    break;</span>
+                default:
+                    break;
+            }
+<span class="nc" id="L90">            RequestDispatcher view = request.getRequestDispatcher(&quot;PesquisarIntegranteController&quot;);</span>
+<span class="nc" id="L91">            view.forward(request, response);</span>
+
+<span class="nc" id="L93">        } catch (ServletException e) {</span>
+<span class="nc" id="L94">            throw e;</span>
+<span class="nc" id="L95">        } catch (IOException e) {</span>
+<span class="nc" id="L96">            throw new ServletException(e);</span>
+<span class="nc" id="L97">        }</span>
+<span class="nc" id="L98">    }</span>
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
+
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        try {
+<span class="nc" id="L114">            processRequest(request, response);</span>
+<span class="nc" id="L115">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L116">            Logger.getLogger(ManterIntegranteController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L117">        } catch (SQLException ex) {</span>
+<span class="nc" id="L118">            Logger.getLogger(ManterIntegranteController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L119">        }</span>
+
+<span class="nc" id="L121">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+<span class="nc" id="L135">            processRequest(request, response);</span>
+<span class="nc" id="L136">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L137">            Logger.getLogger(ManterIntegranteController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L138">        } catch (SQLException ex) {</span>
+<span class="nc" id="L139">            Logger.getLogger(ManterIntegranteController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L140">        }</span>
+
+<span class="nc" id="L142">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L151">        return &quot;Short description&quot;;</span>
+    }// &lt;/editor-fold&gt;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

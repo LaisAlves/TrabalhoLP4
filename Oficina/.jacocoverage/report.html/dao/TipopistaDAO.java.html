@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TipopistaDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;oficinaCorrida&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">TipopistaDAO.java</span></div><h1>TipopistaDAO.java</h1><pre class="source lang-java linenums">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.RollbackException;
+import javax.persistence.TypedQuery;
+import model.Automovel;
+import model.Tipopista;
+
+public class TipopistaDAO {
+
+<span class="nc" id="L22">    private static TipopistaDAO instance = new TipopistaDAO();</span>
+
+    public static TipopistaDAO getInstance() {
+<span class="nc" id="L25">        return instance;</span>
+    }
+
+<span class="nc" id="L28">    private TipopistaDAO() {</span>
+<span class="nc" id="L29">    }</span>
+
+    //CLASSES PADRÃO
+    public void salvar(Tipopista tipopista) {
+<span class="nc" id="L33">        EntityManager em = PersistenceUtil.getEntityManager();</span>
+<span class="nc" id="L34">        EntityTransaction tx = em.getTransaction();</span>
+        try {
+<span class="nc" id="L36">            tx.begin();</span>
+<span class="nc" id="L37">            em.persist(tipopista);</span>
+<span class="nc" id="L38">            tx.commit();</span>
+<span class="nc" id="L39">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L40" title="All 4 branches missed.">            if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L41">                tx.rollback();</span>
+            }
+<span class="nc" id="L43">            throw new RuntimeException(e);</span>
+        } finally {
+<span class="nc" id="L45">            PersistenceUtil.close(em);</span>
+<span class="nc" id="L46">        }</span>
+<span class="nc" id="L47">    }</span>
+
+    public void alterar(Tipopista tipopista) {
+<span class="nc" id="L50">        EntityManager em = PersistenceUtil.getEntityManager();</span>
+<span class="nc" id="L51">        EntityTransaction tx = em.getTransaction();</span>
+        try {
+<span class="nc" id="L53">            tx.begin();</span>
+<span class="nc" id="L54">            em.merge(tipopista);</span>
+<span class="nc" id="L55">            tx.commit();</span>
+<span class="nc" id="L56">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L57" title="All 4 branches missed.">            if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L58">                tx.rollback();</span>
+            }
+<span class="nc" id="L60">            throw new RuntimeException(e);</span>
+        } finally {
+<span class="nc" id="L62">            PersistenceUtil.close(em);</span>
+<span class="nc" id="L63">        }</span>
+<span class="nc" id="L64">    }</span>
+
+    public Tipopista getTipopista(Integer id) {
+<span class="nc" id="L67">        EntityManager em = PersistenceUtil.getEntityManager();</span>
+<span class="nc" id="L68">        EntityTransaction tx = em.getTransaction();</span>
+<span class="nc" id="L69">        Tipopista tipopista = null;</span>
+        try {
+<span class="nc" id="L71">            tx.begin();</span>
+<span class="nc" id="L72">            tipopista = em.find(Tipopista.class, id);</span>
+<span class="nc" id="L73">            tx.commit();</span>
+<span class="nc" id="L74">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L75" title="All 4 branches missed.">            if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L76">                tx.rollback();</span>
+            }
+<span class="nc" id="L78">            throw new RuntimeException(e);</span>
+        } finally {
+<span class="nc" id="L80">            PersistenceUtil.close(em);</span>
+<span class="nc" id="L81">        }</span>
+<span class="nc" id="L82">        return tipopista;</span>
+    }
+
+    public void excluir(Tipopista tipopista) {
+<span class="nc" id="L86">        EntityManager em = PersistenceUtil.getEntityManager();</span>
+<span class="nc" id="L87">        EntityTransaction tx = em.getTransaction();</span>
+        try {
+<span class="nc" id="L89">            tx.begin();</span>
+<span class="nc" id="L90">            em.remove(em.getReference(Tipopista.class, tipopista.getIdTipopista()));</span>
+<span class="nc" id="L91">            tx.commit();</span>
+<span class="nc" id="L92">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L93" title="All 4 branches missed.">            if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L94">                tx.rollback();</span>
+            }
+<span class="nc" id="L96">            throw new RuntimeException(e);</span>
+        } finally {
+<span class="nc" id="L98">            PersistenceUtil.close(em);</span>
+<span class="nc" id="L99">        }</span>
+<span class="nc" id="L100">    }</span>
+
+   public static List&lt;Tipopista&gt; obterTiposPista() throws ClassNotFoundException {
+<span class="nc" id="L103">        Connection conexao = null;</span>
+<span class="nc" id="L104">        Statement comando = null;</span>
+<span class="nc" id="L105">        List&lt;Tipopista&gt; tipospista = new ArrayList&lt;Tipopista&gt;();</span>
+        try {
+<span class="nc" id="L107">            conexao = BD.getConexao();</span>
+<span class="nc" id="L108">            comando = conexao.createStatement();</span>
+<span class="nc" id="L109">            ResultSet rs = comando.executeQuery(&quot;select * from tipopista&quot;);</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            while (rs.next()) {</span>
+
+<span class="nc" id="L112">                Tipopista tipopista = new Tipopista(rs.getInt(&quot;idTipopista&quot;), rs.getString(&quot;nome&quot;));</span>
+
+         
+<span class="nc" id="L115">                tipospista.add(tipopista);</span>
+
+<span class="nc" id="L117">            }</span>
+<span class="nc" id="L118">        } catch (SQLException e) {</span>
+<span class="nc" id="L119">            e.printStackTrace();</span>
+        } finally {
+<span class="nc" id="L121">            fecharConexao(conexao, comando);</span>
+
+<span class="nc" id="L123">        }</span>
+<span class="nc" id="L124">        return tipospista;</span>
+    }
+
+    private static void fecharConexao(Connection conexao, Statement comando) {
+        try {
+<span class="nc bnc" id="L129" title="All 2 branches missed.">            if (comando != null) {</span>
+<span class="nc" id="L130">                comando.close();</span>
+            }
+<span class="nc bnc" id="L132" title="All 2 branches missed.">            if (conexao != null) {</span>
+<span class="nc" id="L133">                conexao.close();</span>
+            }
+<span class="nc" id="L135">        } catch (SQLException e) {</span>
+
+<span class="nc" id="L137">        }</span>
+
+<span class="nc" id="L139">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

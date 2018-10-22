@@ -4,12 +4,20 @@
  */
 package dao;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
+import model.Automovel;
 import model.Desempenhoteste;
+import model.Integrante;
+import model.Tipopista;
 
 public class DesempenhotesteDAO {
 
@@ -93,25 +101,62 @@ public class DesempenhotesteDAO {
         }
     }
 
-    // OBTER PARA OS SELECTS
-    public List<Desempenhoteste> obterDesempenhosteste() {
-        EntityManager em = PersistenceUtil.getEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        List<Desempenhoteste> desempenhosTeste = null;
+    public static List<Desempenhoteste> obterDesempenhosteste() throws ClassNotFoundException {
+        Connection conexao = null;
+        Statement comando = null;
+        List<Desempenhoteste> desempenhos = new ArrayList<Desempenhoteste>();
         try {
-            tx.begin();
-            TypedQuery<Desempenhoteste> query = em.createQuery("select d from Desempenhoteste d", Desempenhoteste.class);
-            desempenhosTeste = query.getResultList();
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
+            conexao = BD.getConexao();
+            comando = conexao.createStatement();
+            ResultSet rs = comando.executeQuery("select * from desempenhoteste");
+            while (rs.next()) {
+
+                Desempenhoteste desempenhoteste = new Desempenhoteste(rs.getInt("idDesempenhoteste"), rs.getString("nome"), rs.getString("data"),
+                        rs.getString("hora"), rs.getFloat("aceleracaoMedia"), rs.getFloat("velocidadeMedia"), rs.getString("tempoPista"),
+                        rs.getFloat("frenagem"));
+                
+                
+                Automovel a = new Automovel();
+                a.setIdAutomovel(rs.getInt("FK_automovel"));
+                
+                Integrante i = new Integrante();
+                i.setMatricula(rs.getInt("FK_motorista"));
+                
+                Tipopista t = new Tipopista();
+                t.setIdTipopista(rs.getInt("FK_tipopista"));
+                
+                
+                desempenhoteste.setFKautomovel(a);
+                desempenhoteste.setFKmotorista(i);
+                desempenhoteste.setFKtipopista(t);
+                
+                
+              
+         
+                desempenhos.add(desempenhoteste);
+
             }
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            PersistenceUtil.close(em);
+            fecharConexao(conexao, comando);
+
         }
-        return desempenhosTeste;
+        return desempenhos;
+    }
+
+    private static void fecharConexao(Connection conexao, Statement comando) {
+        try {
+            if (comando != null) {
+                comando.close();
+            }
+            if (conexao != null) {
+                conexao.close();
+            }
+        } catch (SQLException e) {
+
+        }
+
     }
 
 }

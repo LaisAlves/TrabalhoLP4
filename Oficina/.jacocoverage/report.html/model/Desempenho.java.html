@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Desempenho.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;oficinaCorrida&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Desempenho.java</span></div><h1>Desempenho.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model;
+
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+/**
+ *
+ * @author lucas
+ */
+@Entity(name = &quot;Desempenho&quot;)
+@Table(name = &quot;desempenho&quot;)
+public class Desempenho implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;idDesempenho&quot;)
+    private Integer idDesempenho;
+
+<span class="nc" id="L34">    public Desempenho(Integer idDesempenho, String nome, String data, String hora, float aceleracaoMedia, float velocidadeMedia, String tempoPista, float frenagem, Automovel fKautomovel, Integrante fKmotorista, Tipopista fKtipopista) {</span>
+<span class="nc" id="L35">        this.idDesempenho = idDesempenho;</span>
+<span class="nc" id="L36">        this.nome = nome;</span>
+<span class="nc" id="L37">        this.data = data;</span>
+<span class="nc" id="L38">        this.hora = hora;</span>
+<span class="nc" id="L39">        this.aceleracaoMedia = aceleracaoMedia;</span>
+<span class="nc" id="L40">        this.velocidadeMedia = velocidadeMedia;</span>
+<span class="nc" id="L41">        this.tempoPista = tempoPista;</span>
+<span class="nc" id="L42">        this.frenagem = frenagem;</span>
+<span class="nc" id="L43">        this.fKautomovel = fKautomovel;</span>
+<span class="nc" id="L44">        this.fKmotorista = fKmotorista;</span>
+<span class="nc" id="L45">        this.fKtipopista = fKtipopista;</span>
+<span class="nc" id="L46">    }</span>
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 40)
+    @Column(name = &quot;nome&quot;)
+    private String nome;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
+    @Column(name = &quot;data&quot;)
+    private String data;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 8)
+    @Column(name = &quot;hora&quot;)
+    private String hora;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;aceleracaoMedia&quot;)
+    private float aceleracaoMedia;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;velocidadeMedia&quot;)
+    private float velocidadeMedia;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
+    @Column(name = &quot;tempoPista&quot;)
+    private String tempoPista;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;frenagem&quot;)
+    private float frenagem;
+    @JoinColumn(name = &quot;FK_automovel&quot;, referencedColumnName = &quot;idAutomovel&quot;)
+    @ManyToOne(optional = false)
+    private Automovel fKautomovel;
+    @JoinColumn(name = &quot;FK_motorista&quot;, referencedColumnName = &quot;matricula&quot;)
+    @ManyToOne(optional = false)
+    private Integrante fKmotorista;
+    @JoinColumn(name = &quot;FK_tipopista&quot;, referencedColumnName = &quot;idTipopista&quot;)
+    @ManyToOne(optional = false)
+    private Tipopista fKtipopista;
+
+<span class="fc" id="L89">    public Desempenho() {</span>
+<span class="fc" id="L90">    }</span>
+
+<span class="nc" id="L92">    public Desempenho(Integer idDesempenho) {</span>
+<span class="nc" id="L93">        this.idDesempenho = idDesempenho;</span>
+<span class="nc" id="L94">    }</span>
+
+<span class="nc" id="L96">    public Desempenho(Integer idDesempenho, String nome, String data, String hora, float aceleracaoMedia, float velocidadeMedia, String tempoPista, float frenagem) {</span>
+<span class="nc" id="L97">        this.idDesempenho = idDesempenho;</span>
+<span class="nc" id="L98">        this.nome = nome;</span>
+<span class="nc" id="L99">        this.data = data;</span>
+<span class="nc" id="L100">        this.hora = hora;</span>
+<span class="nc" id="L101">        this.aceleracaoMedia = aceleracaoMedia;</span>
+<span class="nc" id="L102">        this.velocidadeMedia = velocidadeMedia;</span>
+<span class="nc" id="L103">        this.tempoPista = tempoPista;</span>
+<span class="nc" id="L104">        this.frenagem = frenagem;</span>
+<span class="nc" id="L105">    }</span>
+
+    public Integer getIdDesempenho() {
+<span class="fc" id="L108">        return idDesempenho;</span>
+    }
+
+    public void setIdDesempenho(Integer idDesempenho) {
+<span class="fc" id="L112">        this.idDesempenho = idDesempenho;</span>
+<span class="fc" id="L113">    }</span>
+
+    public String getNome() {
+<span class="fc" id="L116">        return nome;</span>
+    }
+
+    public void setNome(String nome) {
+<span class="fc" id="L120">        this.nome = nome;</span>
+<span class="fc" id="L121">    }</span>
+
+    public String getData() {
+<span class="fc" id="L124">        return data;</span>
+    }
+
+    public void setData(String data) {
+<span class="fc" id="L128">        this.data = data;</span>
+<span class="fc" id="L129">    }</span>
+
+    public String getHora() {
+<span class="fc" id="L132">        return hora;</span>
+    }
+
+    public void setHora(String hora) {
+<span class="fc" id="L136">        this.hora = hora;</span>
+<span class="fc" id="L137">    }</span>
+
+    public float getAceleracaoMedia() {
+<span class="fc" id="L140">        return aceleracaoMedia;</span>
+    }
+
+    public void setAceleracaoMedia(float aceleracaoMedia) {
+<span class="fc" id="L144">        this.aceleracaoMedia = aceleracaoMedia;</span>
+<span class="fc" id="L145">    }</span>
+
+    public float getVelocidadeMedia() {
+<span class="fc" id="L148">        return velocidadeMedia;</span>
+    }
+
+    public void setVelocidadeMedia(float velocidadeMedia) {
+<span class="fc" id="L152">        this.velocidadeMedia = velocidadeMedia;</span>
+<span class="fc" id="L153">    }</span>
+
+    public String getTempoPista() {
+<span class="fc" id="L156">        return tempoPista;</span>
+    }
+
+    public void setTempoPista(String tempoPista) {
+<span class="fc" id="L160">        this.tempoPista = tempoPista;</span>
+<span class="fc" id="L161">    }</span>
+
+    public float getFrenagem() {
+<span class="fc" id="L164">        return frenagem;</span>
+    }
+
+    public void setFrenagem(float frenagem) {
+<span class="fc" id="L168">        this.frenagem = frenagem;</span>
+<span class="fc" id="L169">    }</span>
+
+    public Automovel getFKautomovel() {
+<span class="fc" id="L172">        return fKautomovel;</span>
+    }
+
+    public void setFKautomovel(Automovel fKautomovel) {
+<span class="fc" id="L176">        this.fKautomovel = fKautomovel;</span>
+<span class="fc" id="L177">    }</span>
+
+    public Integrante getFKmotorista() {
+<span class="fc" id="L180">        return fKmotorista;</span>
+    }
+
+    public void setFKmotorista(Integrante fKmotorista) {
+<span class="fc" id="L184">        this.fKmotorista = fKmotorista;</span>
+<span class="fc" id="L185">    }</span>
+
+    public Tipopista getFKtipopista() {
+<span class="fc" id="L188">        return fKtipopista;</span>
+    }
+
+    public void setFKtipopista(Tipopista fKtipopista) {
+<span class="fc" id="L192">        this.fKtipopista = fKtipopista;</span>
+<span class="fc" id="L193">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L197">        int hash = 0;</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">        hash += (idDesempenho != null ? idDesempenho.hashCode() : 0);</span>
+<span class="fc" id="L199">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="pc bpc" id="L205" title="1 of 2 branches missed.">        if (!(object instanceof Desempenho)) {</span>
+<span class="fc" id="L206">            return false;</span>
+        }
+<span class="nc" id="L208">        Desempenho other = (Desempenho) object;</span>
+<span class="nc bnc" id="L209" title="All 8 branches missed.">        if ((this.idDesempenho == null &amp;&amp; other.idDesempenho != null) || (this.idDesempenho != null &amp;&amp; !this.idDesempenho.equals(other.idDesempenho))) {</span>
+<span class="nc" id="L210">            return false;</span>
+        }
+<span class="nc" id="L212">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L217">        return &quot;model.Desempenho[ idDesempenho=&quot; + idDesempenho + &quot; ]&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PessoaDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;oficinaCorrida&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">PessoaDAO.java</span></div><h1>PessoaDAO.java</h1><pre class="source lang-java linenums">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.RollbackException;
+import javax.persistence.TypedQuery;
+import model.Pessoa;
+import model.Pessoa;
+
+public class PessoaDAO {
+
+<span class="nc" id="L22">    private static PessoaDAO instance = new PessoaDAO();</span>
+
+    public static PessoaDAO getInstance() {
+<span class="nc" id="L25">        return instance;</span>
+    }
+
+<span class="nc" id="L28">    private PessoaDAO() {</span>
+<span class="nc" id="L29">    }</span>
+
+    //CLASSES PADRÃO
+    public void salvar(Pessoa pessoa) {
+<span class="nc" id="L33">        EntityManager em = PersistenceUtil.getEntityManager();</span>
+<span class="nc" id="L34">        EntityTransaction tx = em.getTransaction();</span>
+        try {
+<span class="nc" id="L36">            tx.begin();</span>
+<span class="nc" id="L37">            em.persist(pessoa);</span>
+<span class="nc" id="L38">            tx.commit();</span>
+<span class="nc" id="L39">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L40" title="All 4 branches missed.">            if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L41">                tx.rollback();</span>
+            }
+<span class="nc" id="L43">            throw new RuntimeException(e);</span>
+        } finally {
+<span class="nc" id="L45">            PersistenceUtil.close(em);</span>
+<span class="nc" id="L46">        }</span>
+<span class="nc" id="L47">    }</span>
+
+    public void alterar(Pessoa pessoa) {
+<span class="nc" id="L50">        EntityManager em = PersistenceUtil.getEntityManager();</span>
+<span class="nc" id="L51">        EntityTransaction tx = em.getTransaction();</span>
+        try {
+<span class="nc" id="L53">            tx.begin();</span>
+<span class="nc" id="L54">            em.merge(pessoa);</span>
+<span class="nc" id="L55">            tx.commit();</span>
+<span class="nc" id="L56">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L57" title="All 4 branches missed.">            if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L58">                tx.rollback();</span>
+            }
+<span class="nc" id="L60">            throw new RuntimeException(e);</span>
+        } finally {
+<span class="nc" id="L62">            PersistenceUtil.close(em);</span>
+<span class="nc" id="L63">        }</span>
+<span class="nc" id="L64">    }</span>
+
+    public Pessoa getPessoa(Integer id) {
+<span class="nc" id="L67">        EntityManager em = PersistenceUtil.getEntityManager();</span>
+<span class="nc" id="L68">        EntityTransaction tx = em.getTransaction();</span>
+<span class="nc" id="L69">        Pessoa pessoa = null;</span>
+        try {
+<span class="nc" id="L71">            tx.begin();</span>
+<span class="nc" id="L72">            pessoa = em.find(Pessoa.class, id);</span>
+<span class="nc" id="L73">            tx.commit();</span>
+<span class="nc" id="L74">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L75" title="All 4 branches missed.">            if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L76">                tx.rollback();</span>
+            }
+<span class="nc" id="L78">            throw new RuntimeException(e);</span>
+        } finally {
+<span class="nc" id="L80">            PersistenceUtil.close(em);</span>
+<span class="nc" id="L81">        }</span>
+<span class="nc" id="L82">        return pessoa;</span>
+    }
+
+    public void excluir(Pessoa pessoa) {
+<span class="nc" id="L86">        EntityManager em = PersistenceUtil.getEntityManager();</span>
+<span class="nc" id="L87">        EntityTransaction tx = em.getTransaction();</span>
+        try {
+<span class="nc" id="L89">            tx.begin();</span>
+<span class="nc" id="L90">            em.remove(em.getReference(Pessoa.class, pessoa.getIdPessoa()));</span>
+<span class="nc" id="L91">            tx.commit();</span>
+<span class="nc" id="L92">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L93" title="All 4 branches missed.">            if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L94">                tx.rollback();</span>
+            }
+<span class="nc" id="L96">            throw new RuntimeException(e);</span>
+        } finally {
+<span class="nc" id="L98">            PersistenceUtil.close(em);</span>
+<span class="nc" id="L99">        }</span>
+<span class="nc" id="L100">    }</span>
+
+     
+    public static List&lt;Pessoa&gt; obterPessoas() throws ClassNotFoundException {
+<span class="nc" id="L104">        Connection conexao = null;</span>
+<span class="nc" id="L105">        Statement comando = null;</span>
+<span class="nc" id="L106">        List&lt;Pessoa&gt; pessoas = new ArrayList&lt;Pessoa&gt;();</span>
+        try {
+<span class="nc" id="L108">            conexao = BD.getConexao();</span>
+<span class="nc" id="L109">            comando = conexao.createStatement();</span>
+<span class="nc" id="L110">            ResultSet rs = comando.executeQuery(&quot;select * from pessoa&quot;);</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            while (rs.next()) {</span>
+
+<span class="nc" id="L113">                Pessoa pessoa = new Pessoa(rs.getInt(&quot;idPessoa&quot;), rs.getString(&quot;nome&quot;), rs.getString(&quot;cpf&quot;),</span>
+<span class="nc" id="L114">                        rs.getString(&quot;logradouro&quot;), rs.getString(&quot;cep&quot;), rs.getString(&quot;bairro&quot;), rs.getString(&quot;uf&quot;), rs.getString(&quot;numero&quot;), rs.getString(&quot;telefone&quot;));</span>
+
+         
+<span class="nc" id="L117">                pessoas.add(pessoa);</span>
+
+<span class="nc" id="L119">            }</span>
+<span class="nc" id="L120">        } catch (SQLException e) {</span>
+<span class="nc" id="L121">            e.printStackTrace();</span>
+        } finally {
+<span class="nc" id="L123">            fecharConexao(conexao, comando);</span>
+
+<span class="nc" id="L125">        }</span>
+<span class="nc" id="L126">        return pessoas;</span>
+    }
+
+    private static void fecharConexao(Connection conexao, Statement comando) {
+        try {
+<span class="nc bnc" id="L131" title="All 2 branches missed.">            if (comando != null) {</span>
+<span class="nc" id="L132">                comando.close();</span>
+            }
+<span class="nc bnc" id="L134" title="All 2 branches missed.">            if (conexao != null) {</span>
+<span class="nc" id="L135">                conexao.close();</span>
+            }
+<span class="nc" id="L137">        } catch (SQLException e) {</span>
+
+<span class="nc" id="L139">        }</span>
+
+<span class="nc" id="L141">    }</span>
+
+}
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

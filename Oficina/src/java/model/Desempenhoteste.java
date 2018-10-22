@@ -93,6 +93,10 @@ public class Desempenhoteste implements Serializable {
         this.fKtipopista = fKtipopista;
     }
 
+    public Desempenhoteste(int aInt, String string, String string0, String string1, float aFloat, float aFloat0, String string2, float aFloat1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Integer getIdDesempenhoteste() {
         return idDesempenhoteste;
     }

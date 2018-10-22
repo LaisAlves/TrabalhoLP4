@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
 @Entity(name = "Automovel")
 @Table(name = "automovel")
 
-public class Automovel implements Serializable, IAutomovel{
+public class Automovel implements Serializable{
 
 
 
@@ -134,12 +134,20 @@ public class Automovel implements Serializable, IAutomovel{
     }
 
     
-  @Override
-    public int hashCode(IAutomovel automovel) {
-
+//  @Override
+//    public int hashCode(IAutomovel automovel) {
+//
+//        int hash = 0;
+//        Integer id = automovel.idAutomovel();
+//        hash += (id != null ? id.hashCode() : 0);
+//        return hash;
+//    }
+    
+    
+    @Override
+    public int hashCode() {
         int hash = 0;
-        Integer id = automovel.idAutomovel();
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (idAutomovel != null ? idAutomovel.hashCode() : 0);
         return hash;
     }
 
@@ -166,40 +174,40 @@ public class Automovel implements Serializable, IAutomovel{
     public String getCategoria() {
         if (this.pesoCarro <= 100) {//1
             if (this.custoTotal <= 50) { //2
-                return "Carro - Amador"; //3
+                return "CarroAmador"; //3
             } else if (this.custoTotal < 100) { //4
-                return "Carro - Intermediário";//5
+                return "CarroIntermediário";//5
             } else if (this.custoTotal <= 150) {//6
-                return "Carro - Profissional"; //7
+                return "CarroProfissional"; //7
             }
         } else if (this.pesoCarro < 300) { //8
             if (this.custoTotal <= 50) {//9
-                return " Amador";//10
+                return "Amador";//10
             } else if (this.custoTotal < 100) {//11
-                return "  Intermediário";//12
+                return "Intermediário";//12
             } else if (this.custoTotal <= 150) {//13
-                return " Profissional";//14
+                return "Profissional";//14
             }
         } else if (this.pesoCarro <= 500) {//15
             if (this.custoTotal <= 50) {//16
-                return "Bugre - Amador";//17
+                return "BugreAmador";//17
             } else if (this.custoTotal < 100) {//18
-                return "Bugre - Intermediário";//19
+                return "BugreIntermediário";//19
             } else if (this.custoTotal <= 150) {//20
-                return "Bugre - Profissional";//21
+                return "BugreProfissional";//21
             }
         }
-        return "Sem Categoria"; //22
+        return "SemCategoria"; //22
     }
     
 public boolean salvar(DAO automovelDAO) {
         return automovelDAO.salvar(this);
     }
 
-    @Override
-    public Integer idAutomovel() {
-return this.idAutomovel;       
-    }
+//    @Override
+//    public Integer idAutomovel() {
+//return this.idAutomovel;       
+//    }
 
    
     
