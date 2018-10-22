@@ -51,7 +51,7 @@ public class ManterDesempenhoController extends HttpServlet {
             request.setAttribute("operacao", operacao);
             //chave estrangeira 
             request.setAttribute("automoveis", AutomovelDAO.obterAutomoveis());
-            request.setAttribute("tipospista", TipopistaDAO.getInstance().obterTipospista());
+            request.setAttribute("tipospista", TipopistaDAO.obterTiposPista());
             request.setAttribute("integrantes", IntegranteDAO.getInstance().obterIntegrantes());
             //fim chave estrangeira
             if (!operacao.equals("Incluir")) {

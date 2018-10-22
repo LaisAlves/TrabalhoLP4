@@ -8,6 +8,8 @@ import dao.IntegranteDAO;
 import dao.PessoaDAO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,8 +33,16 @@ public class PesquisarIntegranteController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("integrantes", IntegranteDAO.getInstance().obterIntegrantes());
-        request.setAttribute("pessoas", PessoaDAO.getInstance().obterPessoas());
+        try {
+            request.setAttribute("integrantes", IntegranteDAO.obterIntegrantes());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PesquisarIntegranteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            request.setAttribute("pessoas", PessoaDAO.obterPessoas());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PesquisarIntegranteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         RequestDispatcher view = request.getRequestDispatcher("/pesquisarIntegrante.jsp");
         view.forward(request, response);
     }

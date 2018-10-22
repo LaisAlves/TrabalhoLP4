@@ -4,11 +4,17 @@
  */
 package dao;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
+import model.Pessoa;
 import model.Pessoa;
 
 public class PessoaDAO {
@@ -93,25 +99,48 @@ public class PessoaDAO {
         }
     }
 
-    // OBTER PARA OS SELECTS
-    public List<Pessoa> obterPessoas() {
-        EntityManager em = PersistenceUtil.getEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        List<Pessoa> pessoas = null;
+     
+    public static List<Pessoa> obterPessoas() throws ClassNotFoundException {
+        Connection conexao = null;
+        Statement comando = null;
+        List<Pessoa> pessoas = new ArrayList<Pessoa>();
         try {
-            tx.begin();
-            TypedQuery<Pessoa> query = em.createQuery("select p from Pessoa p", Pessoa.class);
-            pessoas = query.getResultList();
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
+            conexao = BD.getConexao();
+            comando = conexao.createStatement();
+            ResultSet rs = comando.executeQuery("select * from pessoa");
+            while (rs.next()) {
+
+                Pessoa pessoa = new Pessoa(rs.getInt("idPessoa"), rs.getString("nome"), rs.getString("cpf"),
+                        rs.getString("logradouro"), rs.getString("cep"), rs.getString("bairro"), rs.getString("uf"), rs.getString("numero"), rs.getString("telefone"));
+
+         
+                pessoas.add(pessoa);
+
             }
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            PersistenceUtil.close(em);
+            fecharConexao(conexao, comando);
+
         }
         return pessoas;
     }
 
+    private static void fecharConexao(Connection conexao, Statement comando) {
+        try {
+            if (comando != null) {
+                comando.close();
+            }
+            if (conexao != null) {
+                conexao.close();
+            }
+        } catch (SQLException e) {
+
+        }
+
+    }
+
 }
+
+
+

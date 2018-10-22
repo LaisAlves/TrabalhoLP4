@@ -8,6 +8,8 @@ import dao.CompeticaoDAO;
 import dao.TipopistaDAO;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -40,7 +42,7 @@ public class ManterCompeticaoController extends HttpServlet {
         try {
             String operacao = request.getParameter("operacao");
             request.setAttribute("operacao", operacao);
-            request.setAttribute("tipospista", TipopistaDAO.getInstance().obterTipospista());
+            request.setAttribute("tipospista", TipopistaDAO.obterTiposPista());
             if (!operacao.equals("Incluir")) {
                 Integer idCompeticao = Integer.parseInt(request.getParameter("idCompeticao"));
                 competicao = CompeticaoDAO.getInstance().getCompeticao(idCompeticao);
@@ -52,6 +54,8 @@ public class ManterCompeticaoController extends HttpServlet {
             throw e;
         } catch (IOException e) {
             throw new ServletException(e);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ManterCompeticaoController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

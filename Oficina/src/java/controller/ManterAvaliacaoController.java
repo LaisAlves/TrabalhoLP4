@@ -8,6 +8,8 @@ import dao.AvaliacaoDAO;
 import dao.IntegranteDAO;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -40,8 +42,12 @@ public class ManterAvaliacaoController extends HttpServlet {
         try {
             String operacao = request.getParameter("operacao");
             request.setAttribute("operacao", operacao);
-            //chave estrangeira
-            request.setAttribute("integrantes", IntegranteDAO.getInstance().obterIntegrantes());
+            try {
+                //chave estrangeira
+                request.setAttribute("integrantes", IntegranteDAO.obterIntegrantes());
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ManterAvaliacaoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             //fim chave estrangeira
             if (!operacao.equals("Incluir")) {
                 Integer idAvaliacao = Integer.parseInt(request.getParameter("idAvaliacao"));
