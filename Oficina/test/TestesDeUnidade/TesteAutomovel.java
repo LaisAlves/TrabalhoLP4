@@ -14,10 +14,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+<<<<<<< HEAD
 /**
  *
  * @author LaisAlves
  */
+=======
+
+>>>>>>> 56ab6d79da324628f9a788141237b5d8ca92288b
 
 public class TesteAutomovel {
     

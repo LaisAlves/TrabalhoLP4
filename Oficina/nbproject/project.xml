@@ -46,6 +46,7 @@
                     <file>${file.reference.primefaces-6.1.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
+<<<<<<< HEAD
                 <library dirs="200">
                     <file>${file.reference.easymock-3.6-javadoc.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
@@ -70,6 +71,8 @@
                     <file>${file.reference.easymock.jar-1}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
+=======
+>>>>>>> 56ab6d79da324628f9a788141237b5d8ca92288b
             </web-module-libraries>
             <web-module-additional-libraries/>
             <source-roots>
